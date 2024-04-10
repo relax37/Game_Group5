@@ -10,6 +10,4 @@ public:
 
 	// 矩形Aと点Bの当たり判定のプロトタイプ宣言
 	static bool Rect_Dot(int Ax, int Ay, int Aw, int Ah, int Bx, int By);
-
-
 };

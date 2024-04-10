@@ -32,7 +32,7 @@ void StepInput()
 }
 
 //単純に押されているか
-bool IsKeyDown(int key_code)
+bool InputKey::Down(int key_code)
 {
 	//現フレで押されている(前フレの状態は関係なし)
 	if (currentKeyBuf[key_code] == 1)
@@ -45,7 +45,7 @@ bool IsKeyDown(int key_code)
 }
 
 //今押された
-bool IsKeyPush(int key_code)
+bool InputKey::Push(int key_code)
 {
 	//前フレで押されていない かつ 現フレで押されている
 	if (preKeyBuf[key_code] == 0 && currentKeyBuf[key_code] == 1)
@@ -58,7 +58,7 @@ bool IsKeyPush(int key_code)
 }
 
 //押し続けられているか
-bool IsKeyKeep(int key_code)
+bool InputKey::Keep(int key_code)
 {
 	//前フレで押されている かつ 現フレで押されている
 	if (preKeyBuf[key_code] == 1 && currentKeyBuf[key_code] == 1)
@@ -71,7 +71,7 @@ bool IsKeyKeep(int key_code)
 }
 
 //たった今離されたか
-bool IsKeyRelease(int key_code)
+bool InputKey::Release(int key_code)
 {
 	//前フレで押されている かつ 現フレで押されていない
 	if (preKeyBuf[key_code] == 1 && currentKeyBuf[key_code] == 0)

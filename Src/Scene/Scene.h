@@ -1,4 +1,5 @@
 #pragma once
+#include "../Input/Input.h"
 
 //ウィンドウサイズ
 #define	WINDOW_WIDTH	1280	// X方向の画面サイズを指定

@@ -1,8 +1,13 @@
 #pragma once
 
+// 画像パス
+// クリア背景
+#define CLEAR_BG_PATH "Data/Image/BackGround/TentativeClearBG.png"
+
 class SceneClear {
 private:
-
+	// クリア背景ハンドル
+	int ClearBGHandle;
 
 public:
 	SceneClear();

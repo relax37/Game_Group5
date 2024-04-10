@@ -2,13 +2,6 @@
 
 #define KEY_BUF_LEN	(256)
 
-class InputKey {
-private:
-
-public:
-
-};
-
 //“ü—Í§Œä‰Šú‰»
 void InitInput();
 
@@ -16,14 +9,17 @@ void InitInput();
 //‘¼‚ÌStep‚æ‚è‘‚­ŒÄ‚Ô
 void StepInput();
 
+class InputKey {
+public:
 //’Pƒ‚É‰Ÿ‚³‚ê‚Ä‚¢‚é‚©
-bool IsKeyDown(int key_code);
+static bool Down(int key_code);
 
 //¡‰Ÿ‚³‚ê‚½
-bool IsKeyPush(int key_code);
+static bool Push(int key_code);
 
 //‰Ÿ‚µ‘±‚¯‚ç‚ê‚Ä‚¢‚é‚©
-bool IsKeyKeep(int key_code);
+static bool Keep(int key_code);
 
 //‚½‚Á‚½¡—£‚³‚ê‚½‚©
-bool IsKeyRelease(int key_code);
+static bool Release(int key_code);
+};

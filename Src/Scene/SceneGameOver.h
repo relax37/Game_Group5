@@ -1,8 +1,13 @@
 #pragma once
 
+// 画像パス
+// ゲームオーバー背景
+#define GAMEOVER_BG_PATH "Data/Image/BackGround/TentativeGameOverBG.png"
+
 class SceneGameOver {
 private:
-	
+	// ゲームオーバー背景ハンドル
+	int GameOverBGHandle;
 
 public:
 	SceneGameOver();
