@@ -31,9 +31,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	InitInput();
 	
 	//Class
-	SceneTitle Title;
-	ScenePlay Play;
-	SceneClear Clear;
+	SceneTitle    Title;
+	ScenePlay     Play;
+	SceneClear    Clear;
 	SceneGameOver GameOver;
 
 	//ゲームメインループ
