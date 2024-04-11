@@ -10,6 +10,8 @@ private:
 
 	int PlayerPosX, PlayerPosY;		// プレイヤーの座標
 
+	int MouseX, MouseY;				// マウスの座標
+
 	bool isLeftorRight;				// 左右判定
 	bool isCut;						// 切る判定
 
@@ -28,6 +30,9 @@ public:
 
 	// プレイシーン終了処理
 	void Fin();
+
+	// 左右座標設定
+	void SetLRMousePos();
 
 	// 左右画面クリック判定
 	void ClickLR();

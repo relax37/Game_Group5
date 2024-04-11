@@ -39,7 +39,7 @@ void Wood::Init()
 
 		// –Ø‚ÌÀ•W
 		WoodPosX[WoodIndex] = WINDOW_WIDTH / 2;
-		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 100 - 100 * WoodIndex;
+		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 166- 138 * WoodIndex;
 	}
 	// –Ø‚Ìª‚Ì‰æ‘œƒnƒ“ƒhƒ‹
 	WoodStandImgHandle = LoadGraph(WOODSTAND_IMG_PATH);
