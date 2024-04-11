@@ -1,13 +1,18 @@
 #pragma once
 
 // 画像パス
-// タイトル背景
-#define TITLE_BG_PATH "Data/Image/BackGround/TentativeTitleBG.png"
+#define TITLE_BG_PATH		"Data/TitleImage/TitleGround.png"	// 背景
+#define TITLE_NAME_PATH		"Data/TitleImage/TitleName.png"		//タイトル名
+#define TITLE_START_PATH	"Data/TitleImage/start.png"			//スタートボタン
+#define TITLE_RULES_PATH	"Data/TitleImage/rules.png"			//ルールボタン
 
 class SceneTitle {
 private:
-	// タイトル背景ハンドル
-	int TitleBGHandle;
+	//画像ハンドル
+	int title_bg_handle;	// 背景
+	int title_name_handle;	//タイトル名
+	int title_start_handle;	//スタートボタン
+	int title_rules_handle;	//ルールボタン
 
 public:
 	SceneTitle();
