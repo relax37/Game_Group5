@@ -5,12 +5,12 @@
 #define PLAY_BG_PATH "Data/Image/BackGround/TentativePlayBG.png"
 
 // –Ø
-#define WOOD_IMG_PATH "Data/Imaga/Play/karinoki.png"
+#define WOOD_IMG_PATH "Data/Play/wood.png"
 #define WOOD_MAX_NUM (100)
 #define WOOD_SIZE (128)
 
 // Ž}
-#define TWIG_IMG_PATH "Data/Imaga/Play/karinoeda.png"
+#define TWIG_IMG_PATH "Data/Play/twig.png"
 #define TWIG_MAX_NUM (50)
 #define TWIG_SIZE (128)
 
