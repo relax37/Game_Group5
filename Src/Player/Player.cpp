@@ -122,7 +122,7 @@ void Player::ClickLR()
 	if (Collision::Rect_Dot(0, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT, MouseX, MouseY))
 	{
 		// 左クリックが押されていれば
-		if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+		if (IsMouseClick(MOUSE_INPUT_LEFT))
 		{
 			isLeftorRight = true;				// 左右判定を左に
 			isCut = true;						// 切る判定をtrueに
@@ -138,7 +138,7 @@ void Player::ClickLR()
 	if (Collision::Rect_Dot(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT, MouseX, MouseY))
 	{
 		// 左クリックが押されていれば
-		if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+		if (IsMouseClick(MOUSE_INPUT_LEFT))
 		{
 			isLeftorRight = false;				// 左右判定を左に
 			isCut = true;						// 切る判定をtrueに

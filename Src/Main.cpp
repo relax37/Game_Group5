@@ -29,6 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//入力制御初期化
 	InitInput();
+	InitInputMouse();
 	
 	//Class
 	SceneTitle    Title;
@@ -55,6 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		//入力制御ステップ
 		StepInput();
+		StepInputMouse();
 
 		//シーンIDによって処理の振り分け
 		switch (g_CurrentSceneID)
