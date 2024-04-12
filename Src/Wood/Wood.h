@@ -14,20 +14,17 @@
 
 class Wood {
 private:
-	int WoodImgHandle[WOOD_MAX_NUM];					// 木の画像ハンドル
-	int WoodStandImgHandle;								// 木の根の画像ハンドル
-	//int TwigImgHandle[TWIG_MAX_NUM];					// 枝の画像ハンドル
-
-	int WoodPosX[WOOD_MAX_NUM], WoodPosY[WOOD_MAX_NUM];	// 木の座標
-	int WoodStandPosX, WoodStandPosY;					// 木の根の座標
+	int WoodImgHandle[WOOD_MAX_NUM];						// 木の画像ハンドル
+	int WoodStandImgHandle;									// 木の根の画像ハンドル
+	//int TwigImgHandle[TWIG_MAX_NUM];						// 枝の画像ハンドル
+		
+	int WoodPosX[WOOD_MAX_NUM], WoodPosY[WOOD_MAX_NUM];		// 木の座標
+	int WoodStandPosX, WoodStandPosY;						// 木の根の座標
 	//int TwigPosX[TWIG_MAX_NUM], TwigPosY[TWIG_MAX_NUM];	// 枝の座標
 
-	int MouseX, MouseY;									// マウスの座標
+	int MouseX, MouseY;										// マウスの座標
 
-	bool isClick;										// クリック判定
-
-	bool isRightMove;									// 右に動く判定
-	bool isLeftMove;									// 左に動く判定
+	int CountNum;											// カウント変数
 
 public:
 	Wood();
@@ -51,8 +48,8 @@ public:
 	// 左方向に木が飛ぶ
 	void WoodMoveLeft();
 
-	// クリック判定
-	void Click();
+	// 木の座標の再設定
+	void ResetWoodPos();
 
 	// 左右画面クリック判定
 	void ClickLR();

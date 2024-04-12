@@ -28,10 +28,11 @@ Wood::Wood()
 	//	TwigPosX[TwigIndex] = TwigPosY[TwigIndex] = 0;
 	//}
 
-	MouseX = MouseY = 0;						// マウスの座標
+	// マウスの座標
+	MouseX = MouseY = 0;
 
-	isRightMove = 0;							// 右に動く判定
-	isLeftMove = 0;								// 左に動く判定
+	// カウント変数
+	CountNum = 0;
 }
 Wood::~Wood() { Fin(); }
 
@@ -63,23 +64,21 @@ void Wood::Init()
 	//	TwigPosX[TwigIndex] = TwigPosY[TwigIndex] = 0;
 	//}
 
-	MouseX = MouseY = 0;				// マウスの座標
+	// マウスの座標
+	MouseX = MouseY = 0;
 
-	isRightMove = false;							// 右に動く判定
-	isLeftMove = false;								// 左に動く判定
+	// カウント変数
+	CountNum = 0;
 }
 
 //プレイシーン通常処理
 void Wood::Step()
 {
-	GetMousePoint(&MouseX, &MouseY);	// マウスの座標を取得
+	// マウスの座標を取得
+	GetMousePoint(&MouseX, &MouseY);
 
 	// 左右画面クリック判定
 	ClickLR();
-
-	WoodMoveRight();
-
-	WoodMoveLeft();
 }
 
 //プレイシーン描画処理
@@ -120,126 +119,125 @@ void Wood::Fin()
 	// 木の根の座標
 	WoodStandPosX = WoodStandPosY = 0;
 
-	MouseX = MouseY = 0;					// マウスの座標
+	// マウスの座標
+	MouseX = MouseY = 0;
 
-	isRightMove = 0;							// 右に動く判定
-	isLeftMove = 0;								// 左に動く判定
+	// カウント変数
+	CountNum = 0;
 }
 
 // 右方向に木が飛ぶ
 void Wood::WoodMoveRight()
 {
-	if (isRightMove)
+	// WoodPosX[0]を右に移動させる
+	if (WoodPosX[0] <= WINDOW_WIDTH + WOOD_SIZE_W)
 	{
-		// Wood[0]
-		if (Collision::Rect(WoodPosX[0] - WOOD_SIZE_W / 2, WoodPosY[0] - WOOD_SIZE_H / 2, WOOD_SIZE_W, WOOD_SIZE_H,
-								0, WINDOW_HEIGHT - 166, WINDOW_WIDTH, WINDOW_HEIGHT))
+		// WoodPosX[0]を右に移動させる
+		WoodPosX[0] += 200;
+	}
+
+	if (WoodPosY[1] < WINDOW_HEIGHT - 166)
+	{
+		// その他の木を下にずらす
+		WoodPosY[1] += 40;
+		WoodPosY[2] += 40;
+		WoodPosY[3] += 40;
+		WoodPosY[4] += 40;
+		WoodPosY[5] += 40;
+	}
+
+	if (WoodPosX[0] >= WINDOW_WIDTH + WOOD_SIZE_W && WoodPosY[1] >= WINDOW_HEIGHT - 166)
+	{
+		for (int WoodIndex = 0; WoodIndex < WOOD_MAX_NUM; WoodIndex++)
 		{
-			// WoodPosX[0]を右に移動させる
-			if (WoodPosX[0] < WINDOW_WIDTH + WOOD_SIZE_W)
-			{
-				WoodPosX[0] += 150;
-			}
-			// 画面外に出たら
-			else
-			{
-				// WoodPos[0]を一番上に移動
-				WoodPosX[0] = WINDOW_WIDTH / 2;
-				WoodPosY[0] = WINDOW_HEIGHT - 166 - 138 * 5;
-			}
-
-			// その他の木を下にずらす
-			if (WoodPosY[1] <= WINDOW_HEIGHT - 166)
-			{
-				WoodPosY[1] += 30;
-				WoodPosY[2] += 30;
-				WoodPosY[3] += 30;
-				WoodPosY[4] += 30;
-				WoodPosY[5] += 30;
-			}
-			// 移動が終わったらisRightMoveをfalseにする
-			else
-			{
-				isRightMove = false;
-			}
+			// 木の座標再設定
+			WoodPosX[WoodIndex] = WINDOW_WIDTH / 2;
+			WoodPosY[WoodIndex] = WINDOW_HEIGHT - 166 - 138 * WoodIndex;
 		}
-
-		//// Wood[1]
-		//if (Collision::Rect(WoodPosX[1] - WOOD_SIZE_W / 2, WoodPosY[1] - WOOD_SIZE_H / 2, WOOD_SIZE_W, WOOD_SIZE_H,
-		//					0, 524, WINDOW_WIDTH, WINDOW_HEIGHT))
-		//{
-		//	// WoodPosX[1]を右に移動させる
-		//	if (WoodPosX[1] < WINDOW_WIDTH + WOOD_SIZE_W)
-		//	{
-		//		WoodPosX[1] += 150;
-		//	}
-		//	// 画面外に出たら
-		//	else
-		//	{
-		//		// WoodPos[1]を一番上に移動
-		//		WoodPosX[1] = WINDOW_WIDTH / 2;
-		//		WoodPosY[1] = WINDOW_HEIGHT - 166 - 138 * 5;
-		//	}
-
-		//	// その他の木を下にずらす
-		//	if (WoodPosY[2] <= WINDOW_HEIGHT - 166)
-		//	{
-		//		WoodPosY[2] += 20;
-		//		WoodPosY[3] += 20;
-		//		WoodPosY[4] += 20;
-		//		WoodPosY[5] += 20;
-		//		WoodPosY[0] += 20;
-		//	}
-
-		//	// 移動が終わったらisRightMoveをfalseにする
-		//	if (WoodPosY[1] == WINDOW_HEIGHT - 166 - 138 * 5 && WoodPosY[2] == WINDOW_HEIGHT - 166)
-		//	{
-		//		isRightMove = false;
-		//	}
-		//}
 	}
 }
 
 // 左方向に木が飛ぶ
 void Wood::WoodMoveLeft()
 {
+	// WoodPosX[0]を右に移動させる
+	if (WoodPosX[0] >= 0)
+	{
+		// WoodPosX[0]を右に移動させる
+		WoodPosX[0] -= 200;
+	}
 
+	if (WoodPosY[1] < WINDOW_HEIGHT - 166)
+	{
+		// その他の木を下にずらす
+		WoodPosY[1] += 40;
+		WoodPosY[2] += 40;
+		WoodPosY[3] += 40;
+		WoodPosY[4] += 40;
+		WoodPosY[5] += 40;
+	}
+
+	if (WoodPosX[0] <= 0 && WoodPosY[1] >= WINDOW_HEIGHT - 166)
+	{
+		// 木の座標の再設定
+		ResetWoodPos();
+	}
+}
+
+// 木の座標の再設定
+void Wood::ResetWoodPos()
+{
+	for (int WoodIndex = 0; WoodIndex < WOOD_MAX_NUM; WoodIndex++)
+	{
+		// 木の座標再設定
+		WoodPosX[WoodIndex] = WINDOW_WIDTH / 2;
+		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 166 - 138 * WoodIndex;
+	}
 }
 
 // 左右画面クリック判定
 void Wood::ClickLR()
 {
-	if (isRightMove == false)
+	// 左側にマウスカーソルがあるとき
+	if (Collision::Rect_Dot(0, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT, MouseX, MouseY))
 	{
-		// 左側にマウスカーソルがあるとき
-		if (Collision::Rect_Dot(0, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT, MouseX, MouseY))
+		// 左クリックが押されていれば
+		if (IsMouseDown(MOUSE_INPUT_LEFT))
 		{
-			// 左クリックが押されていれば
-			if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+			CountNum++;
+			if (CountNum < 5)
 			{
-				isRightMove = true;
-			}
-			// 左クリックが押されていなければ
-			else
-			{
-				
+				// 右に木が移動
+				WoodMoveRight();
 			}
 		}
+		else
+		{
+			CountNum = 0;
+			// 木の座標の再設定
+			ResetWoodPos();
+		}
 	}
-	
 
 	// 左側にマウスカーソルがあるとき
 	if (Collision::Rect_Dot(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT, MouseX, MouseY))
 	{
 		// 左クリックが押されていれば
-		if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+		if (IsMouseDown(MOUSE_INPUT_LEFT))
 		{
-			WoodMoveLeft();
+			CountNum++;
+			if (CountNum < 5)
+			{
+				// 左に木が移動
+				WoodMoveLeft();
+			}
 		}
-		// 左クリックが押されていなければ
 		else
 		{
-			
+			CountNum = 0;
+			// 木の座標の再設定
+			ResetWoodPos();
 		}
 	}
+	
 }
