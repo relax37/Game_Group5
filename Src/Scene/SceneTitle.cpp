@@ -6,6 +6,21 @@ SceneTitle::SceneTitle()
 {
 	// タイトル背景ハンドル
 	title_bg_handle = 0;
+
+	//何のボタンも拡大しない
+	title_select = -1;
+
+	//マウスを表示
+	mouse_flag = TRUE;
+
+	title_bg_handle = -1;		// 背景
+	title_name_handle = -1;		//タイトル名
+	title_start_handle = -1;	//スタートボタン
+	title_rules_handle = -1;	//ルールボタン
+
+	//マウスの座標
+	mouseX = 0;
+	mouseY = 0;
 }
 SceneTitle::~SceneTitle() { FinTitle(); }
 
@@ -18,6 +33,9 @@ void SceneTitle::InitTitle()
 	title_start_handle = LoadGraph(TITLE_START_PATH);	//スタートボタン
 	title_rules_handle = LoadGraph(TITLE_RULES_PATH);	//ルールボタン
 
+	//マウスを表示
+	SetMouseDispFlag(mouse_flag);
+
 	// タイトルループへ
 	g_CurrentSceneID = SCENE_ID_LOOP_TITLE;
 }
@@ -25,6 +43,26 @@ void SceneTitle::InitTitle()
 // タイトル通常処理
 void SceneTitle::StepTitle()
 {
+	//マウスの座標を取得
+	GetMousePoint(&mouseX, &mouseY);
+
+	//マウスのボタンの状態を得る(前の
+	if (IsMouseRelease(MOUSE_INPUT_LEFT))
+	{
+		//テスト
+	}
+
+	switch (title_select)
+	{
+		//スタートボタンを拡大
+	case TitleSelect::START_BOTTUN:
+		
+		break;
+		//ルールボタンを拡大
+	case TitleSelect::RULES_BOTTUN:
+
+		break;
+	}
 
 	// Enterを押したら
 	if(InputKey::Push(KEY_INPUT_RETURN))
