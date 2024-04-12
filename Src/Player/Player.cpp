@@ -81,7 +81,7 @@ void Player::Draw()
 	}
 
 	// debug
-	DrawFormatString(0, 0, GetColor(255, 0, 0), "%d, %d", MouseX, MouseY);
+	/*DrawFormatString(0, 0, GetColor(255, 0, 0), "%d, %d", MouseX, MouseY);*/
 }
 
 // プレイシーン終了処理
