@@ -5,6 +5,14 @@
 #define TITLE_NAME_PATH		"Data/TitleImage/TitleName.png"		//タイトル名
 #define TITLE_START_PATH	"Data/TitleImage/start.png"			//スタートボタン
 #define TITLE_RULES_PATH	"Data/TitleImage/rules.png"			//ルールボタン
+//画像サイズ
+#define TITLE_START_WIDE	(340)		//スタート幅
+#define TITLE_START_HIGH	(100)		//スタート高さ
+#define TITLE_RULES_WIDE	(320)		//ルール幅
+#define TITLE_RULES_HIGH	(100)		//ルール高さ
+//ボタンの拡大量
+#define TITLE_BUTTON_WIDE	(50)		//幅
+#define TITLE_BUTTON_HIGH	(20)		//高さ
 
 enum TitleSelect
 {
@@ -22,9 +30,25 @@ private:
 	int title_rules_handle;	//ルールボタン
 	//マウスの表示設定
 	int mouse_flag;
+	//座標
 	//マウスの座標
 	int mouseX;
 	int mouseY;
+	//スタートボタン
+	int startPosX_L;
+	int startPosY_L;
+	int startPosX_R;
+	int startPosY_R;
+	//ルールボタン
+	int rulesPosX_L;
+	int rulesPosY_L;
+	int rulesPosX_R;
+	int rulesPosY_R;
+	//ボタンBool
+	bool IsStart;	//スタートボタン
+	bool IsRules;	//ルールボタン
+	//キーボート入力設定
+	InputKey inputKey;
 
 public:
 	SceneTitle();
@@ -41,4 +65,10 @@ public:
 
 	// タイトル終了処理
 	void FinTitle();
+
+	//タイトルセレクト
+	void TitleSelect();
+
+	//タイトルセレクトボタン
+	void TitleSelectButton();
 };
