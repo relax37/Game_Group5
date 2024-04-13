@@ -8,7 +8,11 @@
 
 class ScenePlay {
 private:
-	int PlayBGHandle;									// プレイ背景ハンドル
+	// プレイ背景ハンドル
+	int PlayBGHandle;
+
+	// フォントハンドル
+	int FontHandle;
 
 	// Class
 	Player CPlayer;
@@ -29,4 +33,7 @@ public:
 
 	// プレイシーン終了処理
 	void FinPlay();
+
+	// スコアを表示する
+	void DrawScore();
 };

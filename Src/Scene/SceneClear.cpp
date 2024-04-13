@@ -44,6 +44,9 @@ void SceneClear::FinClear()
 	// クリア背景ハンドル
 	DeleteGraph(ClearBGHandle);
 
+	// スコアの初期化
+	Score = 0;
+
 	//タイトルシーンへ移動
 	g_CurrentSceneID = SCENE_ID_INIT_TITLE;
 }

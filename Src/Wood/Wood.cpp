@@ -239,5 +239,9 @@ void Wood::ClickLR()
 			ResetWoodPos();
 		}
 	}
-	
+
+	if (IsMouseClick(MOUSE_INPUT_LEFT))
+	{
+		Score += 1;
+	}
 }
