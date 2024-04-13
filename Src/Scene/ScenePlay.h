@@ -1,10 +1,11 @@
+// 小田
 #pragma once
 #include "../Wood/Wood.h"
 #include "../Player/Player.h"
 
 // 画像パス
 // プレイ背景
-#define PLAY_BG_PATH "Data/Image/BackGround/TentativePlayBG.png"
+#define PLAY_BG_PATH "Data/Image/BackGround/PlayBG.png"
 
 class ScenePlay {
 private:

@@ -1,3 +1,4 @@
+// è¨ìc
 #pragma once
 
 #define PLAYER_STAND_IMG_PATH "Data/Play/stand.png"

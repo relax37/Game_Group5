@@ -1,3 +1,4 @@
+// è¨ìc
 #include "DxLib.h"
 #include "../Scene/Scene.h"
 #include "Player.h"

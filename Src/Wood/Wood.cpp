@@ -1,3 +1,4 @@
+// 小田
 #include "DxLib.h"
 #include "../Scene/Scene.h"
 #include "Wood.h"
@@ -46,14 +47,14 @@ void Wood::Init()
 
 		// 木の座標
 		WoodPosX[WoodIndex] = WINDOW_WIDTH / 2;
-		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 166 - 138 * WoodIndex;
+		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 156 - 138 * WoodIndex;
 	}
 	// 木の根の画像ハンドル
 	WoodStandImgHandle = LoadGraph(WOODSTAND_IMG_PATH);
 
 	// 木の根の座標
 	WoodStandPosX = WINDOW_WIDTH / 2;
-	WoodStandPosY = WINDOW_HEIGHT - 50;
+	WoodStandPosY = WINDOW_HEIGHT - 40;
 
 	//for (int TwigIndex = 0; TwigIndex < TWIG_MAX_NUM; TwigIndex++)
 	//{
@@ -148,12 +149,8 @@ void Wood::WoodMoveRight()
 
 	if (WoodPosX[0] >= WINDOW_WIDTH + WOOD_SIZE_W && WoodPosY[1] >= WINDOW_HEIGHT - 166)
 	{
-		for (int WoodIndex = 0; WoodIndex < WOOD_MAX_NUM; WoodIndex++)
-		{
-			// 木の座標再設定
-			WoodPosX[WoodIndex] = WINDOW_WIDTH / 2;
-			WoodPosY[WoodIndex] = WINDOW_HEIGHT - 166 - 138 * WoodIndex;
-		}
+		// 木の座標の再設定
+		ResetWoodPos();
 	}
 }
 
@@ -191,7 +188,7 @@ void Wood::ResetWoodPos()
 	{
 		// 木の座標再設定
 		WoodPosX[WoodIndex] = WINDOW_WIDTH / 2;
-		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 166 - 138 * WoodIndex;
+		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 156 - 138 * WoodIndex;
 	}
 }
 

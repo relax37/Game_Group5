@@ -1,3 +1,4 @@
+// 小田
 #pragma once
 #include "../Input/Input.h"
 #include "../InputMouse/InputMouse.h"	//マウスの入力設定
@@ -6,6 +7,7 @@
 #define	WINDOW_WIDTH	1280	// X方向の画面サイズを指定
 #define	WINDOW_HEIGHT	720		// Y方向の画面サイズを指定
 
+// スコア
 extern int Score;
 
 enum SCENE_ID
