@@ -18,7 +18,7 @@ Player::Player()
 }
 Player::~Player() { Fin(); }
 
-// プレイシーンの初期化
+// プレイヤーの初期化
 void Player::Init()
 {
 	// プレイヤー(待機)画像ハンドル
@@ -35,7 +35,7 @@ void Player::Init()
 	isCut = false;						// 切る判定
 }
 
-// プレイシーン通常処理
+// プレイヤー通常処理
 void Player::Step()
 {
 	GetMousePoint(&MouseX, &MouseY);	// マウスの座標を取得
@@ -47,7 +47,7 @@ void Player::Step()
 	ClickLR();
 }
 
-// プレイシーン描画処理
+// プレイヤー描画処理
 void Player::Draw()
 {
 	// 左側判定であれば
@@ -85,7 +85,7 @@ void Player::Draw()
 	/*DrawFormatString(0, 0, GetColor(255, 0, 0), "%d, %d", MouseX, MouseY);*/
 }
 
-// プレイシーン終了処理
+// プレイヤー終了処理
 void Player::Fin()
 {
 	DeleteGraph(PlayerStandImgHandle);		// プレイヤー(待機)画像ハンドル

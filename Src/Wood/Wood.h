@@ -31,16 +31,16 @@ public:
 	Wood();
 	~Wood();
 
-	// プレイシーンの初期化
+	// Woodの初期化
 	void Init();
 
-	// プレイシーン通常処理
+	// Wood通常処理
 	void Step();
 
-	// プレイシーン描画処理
+	// Wood描画処理
 	void Draw();
 
-	// プレイシーン終了処理
+	// Wood終了処理
 	void Fin();
 
 	// 右方向に木が飛ぶ

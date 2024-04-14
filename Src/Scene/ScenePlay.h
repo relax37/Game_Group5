@@ -2,6 +2,7 @@
 #pragma once
 #include "../Wood/Wood.h"
 #include "../Player/Player.h"
+#include "../Timer/Timer.h"
 
 // 画像パス
 // プレイ背景
@@ -18,6 +19,7 @@ private:
 	// Class
 	Player CPlayer;
 	Wood CWood;
+	Timer CTimer;
 
 public:
 	ScenePlay();

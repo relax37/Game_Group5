@@ -28,6 +28,9 @@ void ScenePlay::InitPlay()
 	// 木の初期化
 	CWood.Init();
 
+	// タイマーの初期化
+	CTimer.Init();
+
 	g_CurrentSceneID = SCENE_ID_LOOP_PLAY;
 }
 
@@ -39,6 +42,9 @@ void ScenePlay::StepPlay()
 
 	// 木の通常処理
 	CWood.Step();
+
+	// タイマーの通常処理
+	CTimer.Step();
 
 	// Enterを押したら
 	if (InputKey::Push(KEY_INPUT_RETURN))
@@ -60,6 +66,9 @@ void ScenePlay::DrawPlay()
 	// 木の描画処理
 	CWood.Draw();
 
+	// タイマーの描画処理
+	CTimer.Draw();
+
 	// スコアを表示
 	DrawScore();
 }
@@ -79,8 +88,11 @@ void ScenePlay::FinPlay()
 	// 木の終了処理
 	CWood.Fin();
 
+	// タイマーの終了処理
+	CTimer.Fin();
+
 	// クリアシーンに移動
-	g_CurrentSceneID = SCENE_ID_INIT_CLEAR;
+	g_CurrentSceneID = SCENE_ID_INIT_GAMEOVER;
 }
 
 // スコアを表示する
