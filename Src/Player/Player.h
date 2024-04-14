@@ -1,8 +1,8 @@
 // è¨ìc
 #pragma once
 
-#define PLAYER_STAND_IMG_PATH "Data/Play/stand.png"
-#define PLAYER_CUT_IMG_PATH "Data/Play/cut.png"
+#define PLAYER_STAND_IMG_PATH "Data/Image/Play/stand.png"
+#define PLAYER_CUT_IMG_PATH "Data/Image/Play/cut.png"
 
 class Player {
 private:

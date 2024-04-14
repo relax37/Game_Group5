@@ -6,11 +6,11 @@
 
 Wood::Wood()
 {
+	// 木の画像ハンドル
+	WoodImgHandle = 0;
+
 	for (int WoodIndex = 0; WoodIndex < WOOD_MAX_NUM; WoodIndex++)
 	{
-		// 木の画像ハンドル
-		WoodImgHandle[WoodIndex] = 0;
-
 		// 木の座標
 		WoodPosX[WoodIndex] = WoodPosY[WoodIndex] = 0;
 	}
@@ -19,15 +19,6 @@ Wood::Wood()
 
 	// 木の根の座標
 	WoodStandPosX = WoodStandPosY = 0;
-
-	//for (int TwigIndex = 0; TwigIndex < TWIG_MAX_NUM; TwigIndex++)
-	//{
-	//	// 枝の画像ハンドル
-	//	TwigImgHandle[TwigIndex] = 0;
-
-	//	// 枝の座標
-	//	TwigPosX[TwigIndex] = TwigPosY[TwigIndex] = 0;
-	//}
 
 	// マウスの座標
 	MouseX = MouseY = 0;
@@ -40,11 +31,11 @@ Wood::~Wood() { Fin(); }
 //プレイシーンの初期化
 void Wood::Init()
 {
+	// 木の画像ハンドル
+	WoodImgHandle = LoadGraph(WOOD_IMG_PATH);
+
 	for (int WoodIndex = 0; WoodIndex < WOOD_MAX_NUM; WoodIndex++)
 	{
-		// 木の画像ハンドル
-		WoodImgHandle[WoodIndex] = LoadGraph(WOOD_IMG_PATH);
-
 		// 木の座標
 		WoodPosX[WoodIndex] = WINDOW_WIDTH / 2;
 		WoodPosY[WoodIndex] = WINDOW_HEIGHT - 156 - 138 * WoodIndex;
@@ -55,15 +46,6 @@ void Wood::Init()
 	// 木の根の座標
 	WoodStandPosX = WINDOW_WIDTH / 2;
 	WoodStandPosY = WINDOW_HEIGHT - 40;
-
-	//for (int TwigIndex = 0; TwigIndex < TWIG_MAX_NUM; TwigIndex++)
-	//{
-	//	// 枝の画像ハンドル
-	//	TwigImgHandle[TwigIndex] = LoadGraph(TWIG_IMG_PATH);
-
-	//	// 枝の座標
-	//	TwigPosX[TwigIndex] = TwigPosY[TwigIndex] = 0;
-	//}
 
 	// マウスの座標
 	MouseX = MouseY = 0;
@@ -88,29 +70,20 @@ void Wood::Draw()
 	for (int WoodIndex = 0; WoodIndex < WOOD_MAX_NUM; WoodIndex++)
 	{
 		// 木の画像描画
-		DrawRotaGraph(WoodPosX[WoodIndex], WoodPosY[WoodIndex], 2.0f, 0.0f, WoodImgHandle[WoodIndex], true, false);
+		DrawRotaGraph(WoodPosX[WoodIndex], WoodPosY[WoodIndex], 2.0f, 0.0f, WoodImgHandle, true, false);
 	}
 	// 木の根の画像描画
 	DrawRotaGraph(WoodStandPosX, WoodStandPosY, 2.0f, 0.0f, WoodStandImgHandle, true, false);
-
-	//for (int TwigIndex = 0; TwigIndex < TWIG_MAX_NUM; TwigIndex++)
-	//{
-	//	// 枝の画像ハンドル
-	//	TwigImgHandle[TwigIndex] = LoadGraph(TWIG_IMG_PATH);
-
-	//	// 枝の座標
-	//	TwigPosX[TwigIndex] = TwigPosY[TwigIndex] = 0;
-	//}
 }
 
 //プレイシーン終了処理
 void Wood::Fin()
 {
+	// 木の画像ハンドル
+	DeleteGraph(WoodImgHandle);
+
 	for (int WoodIndex = 0; WoodIndex < WOOD_MAX_NUM; WoodIndex++)
 	{
-		// 木の画像ハンドル
-		DeleteGraph(WoodImgHandle[WoodIndex]);
-
 		// 木の座標
 		WoodPosX[WoodIndex] = WoodPosY[WoodIndex] = 0;
 	}
@@ -204,7 +177,6 @@ void Wood::ClickLR()
 			CountNum++;
 			if (CountNum < 5)
 			{
-				// 右に木が移動
 				WoodMoveRight();
 			}
 		}
@@ -225,7 +197,6 @@ void Wood::ClickLR()
 			CountNum++;
 			if (CountNum < 5)
 			{
-				// 左に木が移動
 				WoodMoveLeft();
 			}
 		}

@@ -8,20 +8,13 @@
 #define WOOD_SIZE_W (83)
 #define WOOD_SIZE_H (69)
 
-// 枝
-//#define TWIG_IMG_PATH "Data/Imaga/Play/karinoeda.png"
-//#define TWIG_MAX_NUM (50)
-//#define TWIG_SIZE (128)
-
 class Wood {
 private:
-	int WoodImgHandle[WOOD_MAX_NUM];						// 木の画像ハンドル
+	int WoodImgHandle;										// 木の画像ハンドル
 	int WoodStandImgHandle;									// 木の根の画像ハンドル
-	//int TwigImgHandle[TWIG_MAX_NUM];						// 枝の画像ハンドル
 		
 	int WoodPosX[WOOD_MAX_NUM], WoodPosY[WOOD_MAX_NUM];		// 木の座標
 	int WoodStandPosX, WoodStandPosY;						// 木の根の座標
-	//int TwigPosX[TWIG_MAX_NUM], TwigPosY[TWIG_MAX_NUM];	// 枝の座標
 
 	int MouseX, MouseY;										// マウスの座標
 

@@ -27,7 +27,7 @@ void Player::Init()
 	PlayerCutImgHandle = LoadGraph(PLAYER_CUT_IMG_PATH);
 
 	PlayerPosX = WINDOW_WIDTH / 3 + 50;	// プレイヤーのX座標
-	PlayerPosY = WINDOW_HEIGHT - 150;	// プレイヤーのY座標
+	PlayerPosY = WINDOW_HEIGHT - 156;	// プレイヤーのY座標
 
 	MouseX = MouseY = 0;				// マウスの座標
 

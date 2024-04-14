@@ -28,6 +28,9 @@ void ScenePlay::InitPlay()
 	// 木の初期化
 	CWood.Init();
 
+	// 枝の初期化
+	CTwig.Init();
+
 	// タイマーの初期化
 	CTimer.Init();
 
@@ -43,8 +46,11 @@ void ScenePlay::StepPlay()
 	// 木の通常処理
 	CWood.Step();
 
+	// 枝の通常処理
+	CTwig.Step();
+
 	// タイマーの通常処理
-	CTimer.Step();
+	//CTimer.Step();
 
 	// Enterを押したら
 	if (InputKey::Push(KEY_INPUT_RETURN))
@@ -65,6 +71,9 @@ void ScenePlay::DrawPlay()
 
 	// 木の描画処理
 	CWood.Draw();
+
+	// 枝の描画処理
+	CTwig.Draw();
 
 	// タイマーの描画処理
 	CTimer.Draw();
@@ -87,6 +96,9 @@ void ScenePlay::FinPlay()
 
 	// 木の終了処理
 	CWood.Fin();
+
+	// 枝の終了処理
+	CTwig.Fin();
 
 	// タイマーの終了処理
 	CTimer.Fin();

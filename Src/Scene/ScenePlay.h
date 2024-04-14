@@ -1,7 +1,9 @@
 // è¨ìc
 #pragma once
-#include "../Wood/Wood.h"
+
 #include "../Player/Player.h"
+#include "../Wood/Wood.h"
+#include "../Twig/Twig.h"
 #include "../Timer/Timer.h"
 
 // âÊëúÉpÉX
@@ -19,6 +21,7 @@ private:
 	// Class
 	Player CPlayer;
 	Wood CWood;
+	Twig CTwig;
 	Timer CTimer;
 
 public:
