@@ -6,6 +6,9 @@
 //ウィンドウサイズ
 #define	WINDOW_WIDTH	1280	// X方向の画面サイズを指定
 #define	WINDOW_HEIGHT	720		// Y方向の画面サイズを指定
+//画像パス
+#define START_PATH	"Data/All/start.png"			//スタートボタン
+#define TITLE_PATH	"Data/All/title.png"			//タイトルボタン
 
 // スコア
 extern int Score;

@@ -8,9 +8,6 @@ SceneTitle::SceneTitle()
 	// タイトル背景ハンドル
 	title_bg_handle = 0;
 
-	//何のボタンも拡大しない
-	title_select = -1;
-
 	//マウスを表示
 	mouse_flag = TRUE;
 
@@ -22,7 +19,7 @@ SceneTitle::SceneTitle()
 	//マウスの座標
 	mouseX = 0;
 	mouseY = 0;
-	//スタート
+	//スタートボタン
 	startPosX_L = 470;
 	startPosY_L = 310;
 	startPosX_R = startPosX_L + TITLE_START_WIDE;
@@ -44,7 +41,7 @@ void SceneTitle::InitTitle()
 	//画像ハンドル
 	title_bg_handle = LoadGraph(TITLE_BG_PATH);			//背景
 	title_name_handle = LoadGraph(TITLE_NAME_PATH);		//タイトル名
-	title_start_handle = LoadGraph(TITLE_START_PATH);	//スタートボタン
+	title_start_handle = LoadGraph(START_PATH);	//スタートボタン
 	title_rules_handle = LoadGraph(TITLE_RULES_PATH);	//ルールボタン
 
 	//マウスを表示
@@ -60,9 +57,6 @@ void SceneTitle::StepTitle()
 	//マウスの座標を取得
 	GetMousePoint(&mouseX, &mouseY);
 
-	//タイトルセレクト
-	TitleSelect();
-
 	//マウスとスタートボタンの当たり判定
 	if (Collision::Rect(mouseX, mouseY, 0, 0, 
 		startPosX_L, startPosY_L, TITLE_START_WIDE, TITLE_START_HIGH))
@@ -71,80 +65,83 @@ void SceneTitle::StepTitle()
 		{
 			//スタートBoolをtrueにする
 			IsStart = true;
-			//タイトルボタンを拡大
-			title_select = START_BOTTUN;
+		}
+		//左クリックを離す
+		if (IsMouseRelease(MOUSE_INPUT_LEFT))
+		{
+			//タイトルに移行
+			g_CurrentSceneID = SCENE_ID_FIN_TITLE;
 		}
 	}
+	else if (IsStart == true)
+	{
+		if (Collision::Rect(mouseX, mouseY, 0, 0, startPosX_L - TITLE_BUTTON_WIDE, startPosY_L - TITLE_BUTTON_HIGH,
+			TITLE_START_WIDE + TITLE_BUTTON_WIDE * 2, TITLE_START_HIGH + TITLE_BUTTON_HIGH * 2))
+		{
+			//左クリックを離す
+			if (IsMouseRelease(MOUSE_INPUT_LEFT))
+			{
+				//タイトルに移行
+				g_CurrentSceneID = SCENE_ID_FIN_TITLE;
+			}
+		}
+		//当たってないとき
+		else
+		{
+			IsStart = false;
+		}
+	}
+	//当たってないとき
+	else
+	{
+		IsStart = false;
+	}
 	//マウスとルールボタンの当たり判定
-	else if (Collision::Rect(mouseX, mouseY, 0, 0,
+	if (Collision::Rect(mouseX, mouseY, 0, 0,
 		rulesPosX_L, rulesPosY_L, TITLE_RULES_WIDE, TITLE_RULES_HIGH))
 	{
 		if (IsRules == false)
 		{
 			//ルールBoolをtrueにする
 			IsRules = true;
-			//ルールボタンを拡大
-			title_select = RULES_BOTTUN;
 		}
-	}
-	//どちらにも当たってない
-	else
-	{
-		//スタートとルールのBoolをfalseにする
-		IsStart = false;
-		IsRules = false;
-	}
-
-	//
-	if (IsStart == true)
-	{
-
-	}
-
-	switch (title_select)
-	{
-		//スタートボタンを拡大
-	case TitleSelect::START_BOTTUN:
-		DrawFormatString(30, 30, GetColor(255, 255, 0), "見えてる");
-		break;
-		//ルールボタンを拡大
-	case TitleSelect::RULES_BOTTUN:
-		DrawFormatString(30, 30, GetColor(255, 255, 0), "知ってる");
-		break;
-	}
-
-	//マウスとボタンの当たり判定
-	
-	//左クリックを離す
-	if (IsMouseRelease(MOUSE_INPUT_LEFT))
-	{
-		//テスト
-	}
-
-	// Enterを離す
-	if (InputKey::Release(KEY_INPUT_RETURN))
-	{
-		//スタートボタンの時
-		if (title_select == TitleSelect::START_BOTTUN)
-		{
-			DrawFormatString(30, 30, GetColor(255, 255, 0), "見えてる");
-		}
-		//ルールボタンの時
-		else if (title_select == TitleSelect::RULES_BOTTUN)
+		//左クリックを離す
+		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
 			DrawFormatString(30, 30, GetColor(255, 255, 0), "知ってる");
 		}
-		// タイトルシーンを終了(デバッグ)
-		FinTitle();
 	}
+	else if (IsRules == true)
+	{
+		if (Collision::Rect(mouseX, mouseY, 0, 0, rulesPosX_L - TITLE_BUTTON_WIDE, rulesPosY_L - TITLE_BUTTON_HIGH,
+			TITLE_RULES_WIDE + TITLE_BUTTON_WIDE * 2, TITLE_RULES_HIGH + TITLE_BUTTON_HIGH))
+		{
+			//左クリックを離す
+			if (IsMouseRelease(MOUSE_INPUT_LEFT))
+			{
+				DrawFormatString(30, 30, GetColor(255, 255, 0), "知ってる");
+			}
+		}
+		//当たってないとき
+		else
+		{
+			IsRules = false;
+		}
+	}
+	//当たってないとき
+	else
+	{
+		IsRules = false;
+	}
+
 }
 
 // タイトル描画処理
 void SceneTitle::DrawTitle()
 {
 	DrawGraph(0, 0, title_bg_handle, true);			//背景
-	DrawGraph(340, 60, title_name_handle, true);	//タイトル名
-	if (title_select == START_BOTTUN)
+	DrawGraph(340, 45, title_name_handle, true);	//タイトル名
+	if (IsStart == true)
 	{
 		DrawExtendGraph(startPosX_L - TITLE_BUTTON_WIDE, startPosY_L - TITLE_BUTTON_HIGH,
 			startPosX_R + TITLE_BUTTON_WIDE, startPosY_R + TITLE_BUTTON_HIGH, title_start_handle, true);	//スタートボタン
@@ -153,7 +150,7 @@ void SceneTitle::DrawTitle()
 	{
 		DrawExtendGraph(startPosX_L, startPosY_L, startPosX_R, startPosY_R, title_start_handle, true);		//スタートボタン
 	}
-	if (title_select == RULES_BOTTUN)
+	if (IsRules == true)
 	{
 		TITLE_BUTTON_WIDE;
 		DrawExtendGraph(rulesPosX_L - TITLE_BUTTON_WIDE, rulesPosY_L - TITLE_BUTTON_HIGH,
@@ -178,34 +175,3 @@ void SceneTitle::FinTitle()
 	g_CurrentSceneID = SCENE_ID_INIT_PLAY;
 }
 
-//タイトルセレクト
-void SceneTitle::TitleSelect()
-{
-	if (inputKey.Release(KEY_INPUT_UP))
-	{
-		//タイトルセレクトボタン
-		TitleSelectButton();
-	}
-	else if (inputKey.Release(KEY_INPUT_DOWN))
-	{
-		//タイトルセレクトボタン
-		TitleSelectButton();
-	}
-}
-
-//タイトルセレクトボタン
-void SceneTitle::TitleSelectButton()
-{
-	//スタートボタンの時
-	if (title_select == TitleSelect::START_BOTTUN)
-	{
-		//ルールボタンにする
-		title_select = TitleSelect::RULES_BOTTUN;
-	}
-	//初期とルールボタンの時
-	else if (title_select == -1 || title_select == TitleSelect::RULES_BOTTUN)
-	{
-		//スタートボタンにする
-		title_select = TitleSelect::START_BOTTUN;
-	}
-}

@@ -1,10 +1,10 @@
 #pragma once
 
 // 画像パス
-#define TITLE_BG_PATH		"Data/TitleImage/TitleGround.png"	// 背景
-#define TITLE_NAME_PATH		"Data/TitleImage/TitleName.png"		//タイトル名
-#define TITLE_START_PATH	"Data/TitleImage/start.png"			//スタートボタン
-#define TITLE_RULES_PATH	"Data/TitleImage/rules.png"			//ルールボタン
+#define TITLE_BG_PATH				"Data/TitleImage/TitleGround.png"	// 背景
+#define TITLE_NAME_PATH				"Data/TitleImage/TitleName.png"		//タイトル名
+#define TITLE_RULES_PATH			"Data/TitleImage/rules.png"			//ルールボタン
+#define TITLE_RULES_PICTURE_PATH	"Data/TitleImage/RulesPicture"		//ルール説明画像
 //画像サイズ
 #define TITLE_START_WIDE	(340)		//スタート幅
 #define TITLE_START_HIGH	(100)		//スタート高さ
@@ -14,16 +14,9 @@
 #define TITLE_BUTTON_WIDE	(50)		//幅
 #define TITLE_BUTTON_HIGH	(20)		//高さ
 
-enum TitleSelect
-{
-	START_BOTTUN,
-	RULES_BOTTUN
-};
-
 class SceneTitle {
 private:
 	//画像ハンドル
-	int title_select;		//何のボタンが拡大するか
 	int title_bg_handle;	// 背景
 	int title_name_handle;	//タイトル名
 	int title_start_handle;	//スタートボタン
@@ -47,8 +40,6 @@ private:
 	//ボタンBool
 	bool IsStart;	//スタートボタン
 	bool IsRules;	//ルールボタン
-	//キーボート入力設定
-	InputKey inputKey;
 
 public:
 	SceneTitle();
@@ -66,9 +57,4 @@ public:
 	// タイトル終了処理
 	void FinTitle();
 
-	//タイトルセレクト
-	void TitleSelect();
-
-	//タイトルセレクトボタン
-	void TitleSelectButton();
 };
