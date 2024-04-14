@@ -1,8 +1,10 @@
 #pragma once
 
 // 画像パス
-// クリア背景
-#define CLEAR_BG_PATH "Data/ClearImage/ClearBuckGround.png"
+#define CLEAR_BG_PATH	"Data/ClearImage/ClearBuckGround.png"		//背景
+#define CLEAR_WIN_PATH	"Data/ClearImage/win.png"					//勝つ
+//SE&BGM
+#define CLEAR_WIN_SE_PATH	"Data/SE&BGM/Clear/win.mp3"				//クリア
 
 enum CLEAR_FROM_SCENE
 {
@@ -14,10 +16,15 @@ class SceneClear {
 private:
 	//画像ハンドル
 	int clear_bg_handle;			//背景
+	int clear_win_handle;			//勝つ
 	int clear_start_handle;			//スタートボタン
 	int clear_title_handle;			//タイトルボタン
 	int clear_score_handle;			//スコアボード
 	int clear_font_handle;			//フォント
+	//SE&BGMハンドル
+	int clear_select_button_handle;	//選択
+	int clear_click_button_handle;	//クリックする
+	int clear_clear_handle;			//クリア
 	//マウスの表示設定
 	int mouse_flag;
 	//座標

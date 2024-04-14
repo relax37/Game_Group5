@@ -12,6 +12,11 @@ SceneTitle::SceneTitle()
 	title_rules_handle = -1;			//ルールボタン
 	title_rules_picture_handle = -1;	//ルール画像
 
+	//SE&BGMハンドル
+	title_select_button_handle = 0;		//選択
+	title_click_button_handle = 0;		//クリックする
+	title_bgm_handle = 0;				//bgm
+
 	//マウスを表示
 	mouse_flag = TRUE;
 
@@ -47,8 +52,15 @@ void SceneTitle::InitTitle()
 	title_rules_handle = LoadGraph(TITLE_RULES_PATH);					//ルールボタン
 	title_rules_picture_handle = LoadGraph(TITLE_RULES_PICTURE_PATH);	//ルール画像
 
+	//BGM&SE
+	title_select_button_handle = LoadSoundMem(SELECT_BUTTON_PATH);		//選択
+	title_bgm_handle = LoadSoundMem(TITLE_BGM_PATH);					//bgm
+
 	//マウスを表示
 	SetMouseDispFlag(mouse_flag);
+
+	//bgm
+	PlaySoundMem(title_bgm_handle, DX_PLAYTYPE_LOOP, true);
 
 	// タイトルループへ
 	g_CurrentSceneID = SCENE_ID_LOOP_TITLE;
@@ -81,6 +93,8 @@ void SceneTitle::StepTitle()
 		if (Collision::Rect(mouseX, mouseY, 0, 0, startPosX_L - BUTTON_WIDE, startPosY_L - BUTTON_HIGH,
 			START_WIDE + BUTTON_WIDE * 2, START_HIGH + BUTTON_HIGH * 2))
 		{
+			//SE
+			PlaySoundMem(title_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
@@ -126,6 +140,8 @@ void SceneTitle::StepTitle()
 		if (Collision::Rect(mouseX, mouseY, 0, 0, rulesPosX_L - BUTTON_WIDE, rulesPosY_L - BUTTON_HIGH,
 			TITLE_RULES_WIDE + BUTTON_WIDE * 2, TITLE_RULES_HIGH + BUTTON_HIGH))
 		{
+			//SE
+			PlaySoundMem(title_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
@@ -193,6 +209,10 @@ void SceneTitle::FinTitle()
 	DeleteGraph(title_start_handle);			//スタートボタン
 	DeleteGraph(title_rules_handle);			//ルールボタン
 	DeleteGraph(title_rules_picture_handle);	//ルール画像
+
+	//SE&BGM
+	DeleteSoundMem(title_select_button_handle);	//選択
+	DeleteSoundMem(title_bgm_handle);			//bgm
 
 	//ルールを非表示にする
 	IsRulesDraw = false;

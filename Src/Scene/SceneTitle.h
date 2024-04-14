@@ -5,6 +5,8 @@
 #define TITLE_NAME_PATH				"Data/TitleImage/TitleName.png"		//タイトル名
 #define TITLE_RULES_PATH			"Data/TitleImage/rules.png"			//ルールボタン
 #define TITLE_RULES_PICTURE_PATH	"Data/TitleImage/RulesPicture.png"		//ルール画像
+//SE&BGMパス
+#define TITLE_BGM_PATH		"Data/SE&BGM/Title/bgm.mp3"	//bgm
 //画像サイズ
 #define TITLE_RULES_WIDE	(320)		//ルール幅
 #define TITLE_RULES_HIGH	(100)		//ルール高さ
@@ -17,6 +19,10 @@ private:
 	int title_start_handle;			//スタートボタン
 	int title_rules_handle;			//ルールボタン
 	int title_rules_picture_handle;	//ルール画像
+	//SE&BGMハンドル
+	int title_select_button_handle;	//選択
+	int title_click_button_handle;	//クリックする
+	int title_bgm_handle;			//bgm
 	//マウスの表示設定
 	int mouse_flag;
 	//座標

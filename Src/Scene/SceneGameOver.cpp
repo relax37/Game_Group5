@@ -7,10 +7,15 @@ SceneGameOver::SceneGameOver()
 {
 	//画像ハンドル
 	gameover_bg_handle = 0;			//背景
+	gameover_defeat_handle = 0;		//負け
 	gameover_start_handle = 0;		//スタートボタン
 	gameover_title_handle = 0;		//タイトルボタン
 	gameover_score_handle = 0;		//スコアボード
 	gameover_font_handle = 0;		//フォント
+	//SE&BGMハンドル
+	gameover_select_button_handle = 0;	//選択
+	gameover_click_button_handle = 0;	//クリックする
+	gameover_gameover_handle = 0;		//ゲームオーバー
 	//マウスの表示設定
 	mouse_flag = TRUE;		//表示
 	//座標
@@ -39,10 +44,17 @@ SceneGameOver::~SceneGameOver() { FinGameOver(); }
 void SceneGameOver::InitGameOver()
 {
 	//画像ハンドル
-	gameover_bg_handle = LoadGraph(GAMEOVER_BG_PATH);		//背景
-	gameover_start_handle = LoadGraph(START_PATH);		//スタートボタン
-	gameover_title_handle = LoadGraph(TITLE_PATH);		//タイトルボタン
-	gameover_score_handle = LoadGraph(SCORE_PATH);		//スコアボード
+	gameover_bg_handle = LoadGraph(GAMEOVER_BG_PATH);			//背景
+	gameover_defeat_handle = LoadGraph(GAMEOVER_DEFEAT_PATH);	//負け
+	gameover_start_handle = LoadGraph(START_PATH);				//スタートボタン
+	gameover_title_handle = LoadGraph(TITLE_PATH);				//タイトルボタン
+	gameover_score_handle = LoadGraph(SCORE_PATH);				//スコアボード
+
+	//SE&BGMパス
+	gameover_select_button_handle = LoadSoundMem(SELECT_BUTTON_PATH);	//選択
+	gameover_click_button_handle = LoadSoundMem(CLICK_BUTTOM_PATH);		//クリック
+	gameover_gameover_handle = LoadSoundMem(GAMEOVER_DEFEAT_SE_PATH);	//負け
+
 	// フォント設定
 	gameover_font_handle = CreateFontToHandle("HGP創英ﾌﾟﾚｾﾞﾝｽEB", 48, 3, DX_FONTTYPE_NORMAL);
 
@@ -58,6 +70,9 @@ void SceneGameOver::StepGameOver()
 {
 	//マウスの座標を取得
 	GetMousePoint(&mouseX, &mouseY);
+
+	//ゲームオーバー
+	PlaySoundMem(gameover_gameover_handle, DX_PLAYTYPE_BACK, true);
 
 	//マウスとスタートボタンの当たり判定
 	if (Collision::Rect(mouseX, mouseY, 0, 0,
@@ -82,6 +97,8 @@ void SceneGameOver::StepGameOver()
 		if (Collision::Rect(mouseX, mouseY, 0, 0, startPosX_L - BUTTON_WIDE, startPosY_L - BUTTON_HIGH,
 			START_WIDE + BUTTON_WIDE * 2, START_HIGH + BUTTON_HIGH * 2))
 		{
+			//SE
+			PlaySoundMem(gameover_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
@@ -125,6 +142,8 @@ void SceneGameOver::StepGameOver()
 		if (Collision::Rect(mouseX, mouseY, 0, 0, titlePosX_L - BUTTON_WIDE, titlePosY_L - BUTTON_HIGH,
 			TITLE_WIDE + BUTTON_WIDE * 2, TITLE_HIGH + BUTTON_HIGH))
 		{
+			//SE
+			PlaySoundMem(gameover_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
@@ -151,7 +170,8 @@ void SceneGameOver::StepGameOver()
 void SceneGameOver::DrawGameOver()
 {
 	//画像描画
-	DrawGraph(0, 0, gameover_bg_handle, true);		//背景
+	DrawGraph(0, 0, gameover_bg_handle, true);			//背景
+	DrawGraph(551, 50, gameover_defeat_handle, true);	//負け
 	if (IsStart == true)
 	{
 		DrawExtendGraph(startPosX_L - BUTTON_WIDE, startPosY_L - BUTTON_HIGH,
@@ -170,19 +190,19 @@ void SceneGameOver::DrawGameOver()
 	{
 		DrawExtendGraph(titlePosX_L, titlePosY_L, titlePosX_R, titlePosY_R, gameover_title_handle, true);		//タイトルボタン
 	}
-	DrawGraph(450, 100, gameover_score_handle, true);		//スコアボード
+	DrawGraph(447, 200, gameover_score_handle, true);		//スコアボード
 	//スコア表示
 	if (Score >= 0 && Score < 10)
 	{
-		DrawFormatStringToHandle(WINDOW_WIDTH / 2 - 9, 240, GetColor(255, 0, 0), gameover_font_handle, "%d", Score);
+		DrawFormatStringToHandle(WINDOW_WIDTH / 2 - 9, 340, GetColor(255, 0, 0), gameover_font_handle, "%d", Score);
 	}
 	else if (Score >= 10 && Score < 100)
 	{
-		DrawFormatStringToHandle(WINDOW_WIDTH / 2 - 17, 240, GetColor(255, 0, 0), gameover_font_handle, "%d", Score);
+		DrawFormatStringToHandle(WINDOW_WIDTH / 2 - 17, 340, GetColor(255, 0, 0), gameover_font_handle, "%d", Score);
 	}
 	else if (Score >= 100 && Score < 1000)
 	{
-		DrawFormatStringToHandle(WINDOW_WIDTH / 2 - 33, 240, GetColor(255, 0, 0), gameover_font_handle, "%d", Score);
+		DrawFormatStringToHandle(WINDOW_WIDTH / 2 - 33, 340, GetColor(255, 0, 0), gameover_font_handle, "%d", Score);
 	}
 }
 
@@ -191,9 +211,15 @@ void SceneGameOver::FinGameOver()
 {
 	//画像ハンドル
 	DeleteGraph(gameover_bg_handle);		//背景
+	DeleteGraph(gameover_defeat_handle);	//負け
 	DeleteGraph(gameover_start_handle);		//スタートボタン
 	DeleteGraph(gameover_title_handle);		//タイトルボタン
 	DeleteGraph(gameover_score_handle);		//スコアボード
+
+	//SE&BGM
+	DeleteSoundMem(gameover_select_button_handle);		//選択
+	DeleteSoundMem(gameover_click_button_handle);		//クリック
+	DeleteSoundMem(gameover_gameover_handle);			//ゲームオーバー
 
 	//フォント
 	gameover_font_handle = 0;
