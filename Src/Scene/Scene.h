@@ -9,6 +9,16 @@
 //画像パス
 #define START_PATH	"Data/All/start.png"			//スタートボタン
 #define TITLE_PATH	"Data/All/title.png"			//タイトルボタン
+#define SCORE_PATH	"Data/All/ScoreBoard.png"		//スコアボード
+//画像サイズ
+//ボタン
+#define START_WIDE	(340)		//スタート幅
+#define START_HIGH	(100)		//スタート高さ
+#define TITLE_WIDE	(340)		//タイトル幅
+#define TITLE_HIGH	(100)		//タイトル高さ
+//ボタンの拡大量
+#define BUTTON_WIDE	(50)		//幅
+#define BUTTON_HIGH	(20)		//高さ
 
 // スコア
 extern int Score;
