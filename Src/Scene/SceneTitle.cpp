@@ -5,16 +5,20 @@
 
 SceneTitle::SceneTitle() 
 {
-	// タイトル背景ハンドル
-	title_bg_handle = 0;
+	//画像ハンドル
+	title_bg_handle = -1;				// 背景
+	title_name_handle = -1;				//タイトル名
+	title_start_handle = -1;			//スタートボタン
+	title_rules_handle = -1;			//ルールボタン
+	title_rules_picture_handle = -1;	//ルール画像
+
+	//SE&BGMハンドル
+	title_select_button_handle = 0;		//選択
+	title_click_button_handle = 0;		//クリックする
+	title_bgm_handle = 0;				//bgm
 
 	//マウスを表示
 	mouse_flag = TRUE;
-
-	title_bg_handle = -1;		// 背景
-	title_name_handle = -1;		//タイトル名
-	title_start_handle = -1;	//スタートボタン
-	title_rules_handle = -1;	//ルールボタン
 
 	//マウスの座標
 	mouseX = 0;
@@ -22,8 +26,8 @@ SceneTitle::SceneTitle()
 	//スタートボタン
 	startPosX_L = 470;
 	startPosY_L = 310;
-	startPosX_R = startPosX_L + TITLE_START_WIDE;
-	startPosY_R = startPosY_L + TITLE_START_HIGH;
+	startPosX_R = startPosX_L + START_WIDE;
+	startPosY_R = startPosY_L + START_HIGH;
 	//ルールボタン
 	rulesPosX_L = 480;
 	rulesPosY_L = 480;
@@ -32,6 +36,9 @@ SceneTitle::SceneTitle()
 	//ボタンBool
 	IsStart = false;	//スタートボタン
 	IsRules = false;	//ルールボタン
+
+	//ルール表示Bool
+	IsRulesDraw = false;
 }
 SceneTitle::~SceneTitle() { FinTitle(); }
 
@@ -39,13 +46,21 @@ SceneTitle::~SceneTitle() { FinTitle(); }
 void SceneTitle::InitTitle()
 {
 	//画像ハンドル
-	title_bg_handle = LoadGraph(TITLE_BG_PATH);			//背景
-	title_name_handle = LoadGraph(TITLE_NAME_PATH);		//タイトル名
-	title_start_handle = LoadGraph(START_PATH);	//スタートボタン
-	title_rules_handle = LoadGraph(TITLE_RULES_PATH);	//ルールボタン
+	title_bg_handle = LoadGraph(TITLE_BG_PATH);							//背景
+	title_name_handle = LoadGraph(TITLE_NAME_PATH);						//タイトル名
+	title_start_handle = LoadGraph(START_PATH);							//スタートボタン
+	title_rules_handle = LoadGraph(TITLE_RULES_PATH);					//ルールボタン
+	title_rules_picture_handle = LoadGraph(TITLE_RULES_PICTURE_PATH);	//ルール画像
+
+	//BGM&SE
+	title_select_button_handle = LoadSoundMem(SELECT_BUTTON_PATH);		//選択
+	title_bgm_handle = LoadSoundMem(TITLE_BGM_PATH);					//bgm
 
 	//マウスを表示
 	SetMouseDispFlag(mouse_flag);
+
+	//bgm
+	PlaySoundMem(title_bgm_handle, DX_PLAYTYPE_LOOP, true);
 
 	// タイトルループへ
 	g_CurrentSceneID = SCENE_ID_LOOP_TITLE;
@@ -59,7 +74,7 @@ void SceneTitle::StepTitle()
 
 	//マウスとスタートボタンの当たり判定
 	if (Collision::Rect(mouseX, mouseY, 0, 0, 
-		startPosX_L, startPosY_L, TITLE_START_WIDE, TITLE_START_HIGH))
+		startPosX_L, startPosY_L, START_WIDE, START_HIGH))
 	{
 		if (IsStart == false)
 		{
@@ -75,9 +90,11 @@ void SceneTitle::StepTitle()
 	}
 	else if (IsStart == true)
 	{
-		if (Collision::Rect(mouseX, mouseY, 0, 0, startPosX_L - TITLE_BUTTON_WIDE, startPosY_L - TITLE_BUTTON_HIGH,
-			TITLE_START_WIDE + TITLE_BUTTON_WIDE * 2, TITLE_START_HIGH + TITLE_BUTTON_HIGH * 2))
+		if (Collision::Rect(mouseX, mouseY, 0, 0, startPosX_L - BUTTON_WIDE, startPosY_L - BUTTON_HIGH,
+			START_WIDE + BUTTON_WIDE * 2, START_HIGH + BUTTON_HIGH * 2))
 		{
+			//SE
+			PlaySoundMem(title_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
@@ -108,18 +125,34 @@ void SceneTitle::StepTitle()
 		//左クリックを離す
 		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
-			DrawFormatString(30, 30, GetColor(255, 255, 0), "知ってる");
+			if (IsRulesDraw == false)
+			{
+				IsRulesDraw = true;
+			}
+			else
+			{
+				IsRulesDraw = false;
+			}
 		}
 	}
 	else if (IsRules == true)
 	{
-		if (Collision::Rect(mouseX, mouseY, 0, 0, rulesPosX_L - TITLE_BUTTON_WIDE, rulesPosY_L - TITLE_BUTTON_HIGH,
-			TITLE_RULES_WIDE + TITLE_BUTTON_WIDE * 2, TITLE_RULES_HIGH + TITLE_BUTTON_HIGH))
+		if (Collision::Rect(mouseX, mouseY, 0, 0, rulesPosX_L - BUTTON_WIDE, rulesPosY_L - BUTTON_HIGH,
+			TITLE_RULES_WIDE + BUTTON_WIDE * 2, TITLE_RULES_HIGH + BUTTON_HIGH))
 		{
+			//SE
+			PlaySoundMem(title_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
-				DrawFormatString(30, 30, GetColor(255, 255, 0), "知ってる");
+				if (IsRulesDraw == false)
+				{
+					IsRulesDraw = true;
+				}
+				else
+				{
+					IsRulesDraw = false;
+				}
 			}
 		}
 		//当たってないとき
@@ -143,8 +176,8 @@ void SceneTitle::DrawTitle()
 	DrawGraph(340, 45, title_name_handle, true);	//タイトル名
 	if (IsStart == true)
 	{
-		DrawExtendGraph(startPosX_L - TITLE_BUTTON_WIDE, startPosY_L - TITLE_BUTTON_HIGH,
-			startPosX_R + TITLE_BUTTON_WIDE, startPosY_R + TITLE_BUTTON_HIGH, title_start_handle, true);	//スタートボタン
+		DrawExtendGraph(startPosX_L - BUTTON_WIDE, startPosY_L - BUTTON_HIGH,
+			startPosX_R + BUTTON_WIDE, startPosY_R + BUTTON_HIGH, title_start_handle, true);	//スタートボタン
 	}
 	else
 	{
@@ -152,13 +185,18 @@ void SceneTitle::DrawTitle()
 	}
 	if (IsRules == true)
 	{
-		TITLE_BUTTON_WIDE;
-		DrawExtendGraph(rulesPosX_L - TITLE_BUTTON_WIDE, rulesPosY_L - TITLE_BUTTON_HIGH,
-			rulesPosX_R + TITLE_BUTTON_WIDE, rulesPosY_R + TITLE_BUTTON_HIGH, title_rules_handle, true);	//ルールボタン
+		DrawExtendGraph(rulesPosX_L - BUTTON_WIDE, rulesPosY_L - BUTTON_HIGH,
+			rulesPosX_R + BUTTON_WIDE, rulesPosY_R + BUTTON_HIGH, title_rules_handle, true);	//ルールボタン
 	}
 	else
 	{
 		DrawExtendGraph(rulesPosX_L, rulesPosY_L, rulesPosX_R, rulesPosY_R, title_rules_handle, true);		//ルールボタン
+	}
+
+	//ルール表示
+	if (IsRulesDraw == true)
+	{
+		DrawGraph(100, 275, title_rules_picture_handle, true);
 	}
 }
 
@@ -166,10 +204,18 @@ void SceneTitle::DrawTitle()
 void SceneTitle::FinTitle()
 {
 	//画像破棄
-	DeleteGraph(title_bg_handle);		//背景
-	DeleteGraph(title_name_handle);		//タイトル名
-	DeleteGraph(title_start_handle);	//スタートボタン
-	DeleteGraph(title_rules_handle);	//ルールボタン
+	DeleteGraph(title_bg_handle);				//背景
+	DeleteGraph(title_name_handle);				//タイトル名
+	DeleteGraph(title_start_handle);			//スタートボタン
+	DeleteGraph(title_rules_handle);			//ルールボタン
+	DeleteGraph(title_rules_picture_handle);	//ルール画像
+
+	//SE&BGM
+	DeleteSoundMem(title_select_button_handle);	//選択
+	DeleteSoundMem(title_bgm_handle);			//bgm
+
+	//ルールを非表示にする
+	IsRulesDraw = false;
 
 	// プレイシーンに移動
 	g_CurrentSceneID = SCENE_ID_INIT_PLAY;
