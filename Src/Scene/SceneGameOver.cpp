@@ -71,8 +71,8 @@ void SceneGameOver::StepGameOver()
 		//左クリックを離す
 		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
-			//クリア後処理に移行
-			g_CurrentSceneID = SCENE_ID_FIN_CLEAR;
+			//ゲームオーバー後処理に移行
+			g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 			//後にプレイシーンへ移動
 			IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_PLAY;
 		}
@@ -85,8 +85,8 @@ void SceneGameOver::StepGameOver()
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
-				//クリア後処理に移行
-				g_CurrentSceneID = SCENE_ID_FIN_CLEAR;
+				//ゲームオーバー後処理に移行
+				g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 				//後にプレイシーンへ移動
 				IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_PLAY;
 			}
@@ -114,8 +114,8 @@ void SceneGameOver::StepGameOver()
 		//左クリックを離す
 		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
-			//クリア後処理に移行
-			g_CurrentSceneID = SCENE_ID_FIN_CLEAR;
+			//ゲームオーバー後処理に移行
+			g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 			//後にタイトルシーンへ移動
 			IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_TITLE;
 		}
@@ -128,8 +128,8 @@ void SceneGameOver::StepGameOver()
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
-				//クリア後処理に移行
-				g_CurrentSceneID = SCENE_ID_FIN_CLEAR;
+				//ゲームオーバー後処理に移行
+				g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 				//後にタイトルシーンへ移動
 				IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_TITLE;
 			}
