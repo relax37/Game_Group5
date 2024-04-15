@@ -1,3 +1,4 @@
+//高松
 #pragma once
 
 // 画像パス
@@ -44,6 +45,12 @@ private:
 	//ボタンBool
 	bool IsStart;	//スタートボタン
 	bool IsTitle;	//タイトルボタン
+	//選択遅延
+	bool IsSlowSelect;
+	//クリック遅延
+	int SlowClick;
+	//シーン遷移Bool
+	bool SceneBool;
 	//タイトルかプレイか
 	int IsFromScene;
 

@@ -1,3 +1,4 @@
+//高松
 #include "DxLib.h"
 #include "Scene.h"
 #include "SceneGameOver.h"
@@ -35,6 +36,12 @@ SceneGameOver::SceneGameOver()
 	//ボタンBool
 	IsStart = false;	//スタートボタン
 	IsTitle = false;	//タイトルボタン
+	//選択遅延
+	IsSlowSelect = false;
+	//クリック遅延
+	SlowClick = 0;
+	//シーン遷移Bool
+	SceneBool = false;
 	//タイトルかプレイか
 	IsFromScene = -1;
 }
@@ -58,6 +65,9 @@ void SceneGameOver::InitGameOver()
 	// フォント設定
 	gameover_font_handle = CreateFontToHandle("HGP創英ﾌﾟﾚｾﾞﾝｽEB", 48, 3, DX_FONTTYPE_NORMAL);
 
+	//ゲームオーバーSE
+	PlaySoundMem(gameover_gameover_handle, DX_PLAYTYPE_BACK, true);
+
 	//マウスを表示
 	SetMouseDispFlag(mouse_flag);
 
@@ -71,9 +81,6 @@ void SceneGameOver::StepGameOver()
 	//マウスの座標を取得
 	GetMousePoint(&mouseX, &mouseY);
 
-	//ゲームオーバー
-	PlaySoundMem(gameover_gameover_handle, DX_PLAYTYPE_BACK, true);
-
 	//マウスとスタートボタンの当たり判定
 	if (Collision::Rect(mouseX, mouseY, 0, 0,
 		startPosX_L, startPosY_L, START_WIDE, START_HIGH))
@@ -83,13 +90,27 @@ void SceneGameOver::StepGameOver()
 			//スタートBoolをtrueにする
 			IsStart = true;
 		}
+		//選択遅延
+		if (IsSlowSelect == false)
+		{
+			//一秒遅延
+			IsSlowSelect = true;
+			//SE
+			PlaySoundMem(gameover_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
+		}
 		//左クリックを離す
 		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
-			//ゲームオーバー後処理に移行
-			g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 			//後にプレイシーンへ移動
 			IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_PLAY;
+			//シーン遷移Bool
+			SceneBool = true;
+			if (SlowClick == 0)
+			{
+				SlowClick = 60;
+				//SE
+				PlaySoundMem(gameover_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+			}
 		}
 	}
 	else if (IsStart == true)
@@ -102,10 +123,16 @@ void SceneGameOver::StepGameOver()
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
-				//ゲームオーバー後処理に移行
-				g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 				//後にプレイシーンへ移動
 				IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_PLAY;
+				//シーン遷移Bool
+				SceneBool = true;
+				if (SlowClick == 0)
+				{
+					SlowClick = 60;
+					//SE
+					PlaySoundMem(gameover_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+				}
 			}
 		}
 		//当たってないとき
@@ -128,13 +155,27 @@ void SceneGameOver::StepGameOver()
 			//タイトルBoolをtrueにする
 			IsTitle = true;
 		}
+		//選択遅延
+		if (IsSlowSelect == false)
+		{
+			//一秒遅延
+			IsSlowSelect = true;
+			//SE
+			PlaySoundMem(gameover_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
+		}
 		//左クリックを離す
 		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
-			//ゲームオーバー後処理に移行
-			g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 			//後にタイトルシーンへ移動
 			IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_TITLE;
+			//シーン遷移Bool
+			SceneBool = true;
+			if (SlowClick == 0)
+			{
+				SlowClick = 60;
+				//SE
+				PlaySoundMem(gameover_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+			}
 		}
 	}
 	else if (IsTitle == true)
@@ -147,10 +188,16 @@ void SceneGameOver::StepGameOver()
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
-				//ゲームオーバー後処理に移行
-				g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 				//後にタイトルシーンへ移動
 				IsFromScene = GAMEOVER_FROM_SCENE::GAMEOVER_FROM_TITLE;
+				//シーン遷移Bool
+				SceneBool = true;
+				if (SlowClick == 0)
+				{
+					SlowClick = 60;
+					//SE
+					PlaySoundMem(gameover_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+				}
 			}
 		}
 		//当たってないとき
@@ -163,6 +210,22 @@ void SceneGameOver::StepGameOver()
 	else
 	{
 		IsTitle = false;
+	}
+	//両方のボタンに当たってないとき
+	if (IsStart == false && IsTitle == false)
+	{
+		//再び遅延
+		IsSlowSelect = false;
+	}
+	//クリック遅延
+	if (SlowClick != 0)
+	{
+		SlowClick--;
+	}
+	if (SlowClick == 0 && SceneBool == true)
+	{
+		//ゲームオーバー後処理に移行
+		g_CurrentSceneID = SCENE_ID_FIN_GAMEOVER;
 	}
 }
 
@@ -220,6 +283,11 @@ void SceneGameOver::FinGameOver()
 	DeleteSoundMem(gameover_select_button_handle);		//選択
 	DeleteSoundMem(gameover_click_button_handle);		//クリック
 	DeleteSoundMem(gameover_gameover_handle);			//ゲームオーバー
+
+	//選択遅延
+	IsSlowSelect = false;
+	//シーン遷移Bool
+	SceneBool = false;
 
 	//フォント
 	gameover_font_handle = 0;

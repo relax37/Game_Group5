@@ -1,3 +1,4 @@
+//高松
 #include "DxLib.h"
 #include "Scene.h"
 #include "SceneTitle.h"
@@ -36,7 +37,12 @@ SceneTitle::SceneTitle()
 	//ボタンBool
 	IsStart = false;	//スタートボタン
 	IsRules = false;	//ルールボタン
-
+	//選択遅延
+	IsSlowSelect = false;
+	//クリック遅延
+	SlowClick = 0;
+	//シーン遷移Bool
+	SceneBool = false;
 	//ルール表示Bool
 	IsRulesDraw = false;
 }
@@ -54,6 +60,7 @@ void SceneTitle::InitTitle()
 
 	//BGM&SE
 	title_select_button_handle = LoadSoundMem(SELECT_BUTTON_PATH);		//選択
+	title_click_button_handle = LoadSoundMem(CLICK_BUTTOM_PATH);		//クリック
 	title_bgm_handle = LoadSoundMem(TITLE_BGM_PATH);					//bgm
 
 	//マウスを表示
@@ -61,6 +68,9 @@ void SceneTitle::InitTitle()
 
 	//bgm
 	PlaySoundMem(title_bgm_handle, DX_PLAYTYPE_LOOP, true);
+
+	//bgm音量調整
+	ChangeVolumeSoundMem(100, title_bgm_handle);
 
 	// タイトルループへ
 	g_CurrentSceneID = SCENE_ID_LOOP_TITLE;
@@ -81,11 +91,25 @@ void SceneTitle::StepTitle()
 			//スタートBoolをtrueにする
 			IsStart = true;
 		}
+		//選択遅延
+		if (IsSlowSelect == false)
+		{
+			//一秒遅延
+			IsSlowSelect = true;
+			//SE
+			PlaySoundMem(title_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
+		}
 		//左クリックを離す
 		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
-			//タイトルに移行
-			g_CurrentSceneID = SCENE_ID_FIN_TITLE;
+			//シーン遷移Bool
+			SceneBool = true;
+			if (SlowClick == 0)
+			{
+				SlowClick = 60;
+				//SE
+				PlaySoundMem(title_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+			}
 		}
 	}
 	else if (IsStart == true)
@@ -93,13 +117,17 @@ void SceneTitle::StepTitle()
 		if (Collision::Rect(mouseX, mouseY, 0, 0, startPosX_L - BUTTON_WIDE, startPosY_L - BUTTON_HIGH,
 			START_WIDE + BUTTON_WIDE * 2, START_HIGH + BUTTON_HIGH * 2))
 		{
-			//SE
-			PlaySoundMem(title_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
-				//タイトルに移行
-				g_CurrentSceneID = SCENE_ID_FIN_TITLE;
+				//シーン遷移Bool
+				SceneBool = true;
+				if (SlowClick == 0)
+				{
+					SlowClick = 60;
+					//SE
+					PlaySoundMem(title_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+				}
 			}
 		}
 		//当たってないとき
@@ -122,9 +150,23 @@ void SceneTitle::StepTitle()
 			//ルールBoolをtrueにする
 			IsRules = true;
 		}
+		//選択遅延
+		if (IsSlowSelect == false)
+		{
+			//一秒遅延
+			IsSlowSelect = true;
+			//SE
+			PlaySoundMem(title_select_button_handle, DX_PLAYTYPE_BACK, true);	//選択
+		}
 		//左クリックを離す
 		if (IsMouseRelease(MOUSE_INPUT_LEFT))
 		{
+			if (SlowClick == 0)
+			{
+				SlowClick = 60;
+				//SE
+				PlaySoundMem(title_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+			}
 			if (IsRulesDraw == false)
 			{
 				IsRulesDraw = true;
@@ -145,6 +187,12 @@ void SceneTitle::StepTitle()
 			//左クリックを離す
 			if (IsMouseRelease(MOUSE_INPUT_LEFT))
 			{
+				if (SlowClick == 0)
+				{
+					SlowClick = 60;
+					//SE
+					PlaySoundMem(title_click_button_handle, DX_PLAYTYPE_BACK, true);	//クリック
+				}
 				if (IsRulesDraw == false)
 				{
 					IsRulesDraw = true;
@@ -166,7 +214,23 @@ void SceneTitle::StepTitle()
 	{
 		IsRules = false;
 	}
-
+	//両方のボタンに当たってないとき
+	if (IsStart == false && IsRules == false)
+	{
+		//再び遅延
+		IsSlowSelect = false;
+	}
+	//クリック遅延
+	if (SlowClick != 0)
+	{
+		SlowClick--;
+	}
+	if (SlowClick == 0 && SceneBool == true)
+	{
+		//タイトルに移行
+		g_CurrentSceneID = SCENE_ID_FIN_TITLE;
+	}
+	
 }
 
 // タイトル描画処理
@@ -212,7 +276,13 @@ void SceneTitle::FinTitle()
 
 	//SE&BGM
 	DeleteSoundMem(title_select_button_handle);	//選択
+	DeleteSoundMem(title_click_button_handle);	//クリック
 	DeleteSoundMem(title_bgm_handle);			//bgm
+
+	//選択遅延
+	IsSlowSelect = false;
+	//シーン遷移Bool
+	SceneBool = false;
 
 	//ルールを非表示にする
 	IsRulesDraw = false;
