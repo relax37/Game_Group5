@@ -12,6 +12,9 @@ ScenePlay::ScenePlay()
 	// フォントハンドル
 	FontHandle = 0;
 
+	// サウンドハンドル
+	SoundHandle = 0;
+
 	// クリックスタート判定
 	isClickStart = 0;
 }
@@ -25,6 +28,15 @@ void ScenePlay::InitPlay()
 
 	// フォント設定
 	FontHandle = CreateFontToHandle("HGP創英ﾌﾟﾚｾﾞﾝｽEB", 48, 3, DX_FONTTYPE_NORMAL);
+
+	// サウンド
+	SoundHandle = LoadSoundMem(PLAY_BGM_PATH);
+
+	//BGM&SE
+	PlaySoundMem(SoundHandle, DX_PLAYTYPE_LOOP, true);
+
+	//bgm音量調整
+	ChangeVolumeSoundMem(100, SoundHandle);
 
 	// プレイヤーの初期化
 	CPlayer.Init();
@@ -96,6 +108,8 @@ void ScenePlay::FinPlay()
 {
 	// タイトル背景ハンドル
 	DeleteGraph(PlayBGHandle);
+
+	DeleteSoundMem(SoundHandle);
 
 	// フォントハンドル
 	FontHandle = 0;

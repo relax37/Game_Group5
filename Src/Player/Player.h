@@ -4,6 +4,9 @@
 #define PLAYER_STAND_IMG_PATH "Data/Image/Play/stand.png"
 #define PLAYER_CUT_IMG_PATH "Data/Image/Play/cut.png"
 
+// サウンドパス
+#define CUT_SE_PATH "Data/SE&BGM/Play/CutSE.mp3"
+
 class Player {
 private:
 	int PlayerStandImgHandle;		// プレイヤー(待機)画像ハンドル
@@ -15,6 +18,9 @@ private:
 
 	bool isLeftorRight;				// 左右判定
 	bool isCut;						// 切る判定
+
+	// サウンドハンドル
+	int SoundHandle;
 
 public:
 	Player();

@@ -15,6 +15,9 @@ Player::Player()
 
 	isLeftorRight = 0;				// 左右判定	
 	isCut = 0;						// 反転判定
+
+	// サウンドハンドル
+	SoundHandle = 0;
 }
 Player::~Player() { Fin(); }
 
@@ -33,6 +36,12 @@ void Player::Init()
 
 	isLeftorRight = true;				// 左右判定	(初期(true)は左)
 	isCut = false;						// 切る判定
+
+	// サウンド
+	SoundHandle = LoadSoundMem(CUT_SE_PATH);
+
+	//bgm音量調整
+	ChangeVolumeSoundMem(100, SoundHandle);
 }
 
 // プレイヤー通常処理
@@ -123,10 +132,13 @@ void Player::ClickLR()
 	if (Collision::Rect_Dot(0, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT, MouseX, MouseY))
 	{
 		// 左クリックが押されていれば
-		if (IsMouseDown(MOUSE_INPUT_LEFT))
+		if (IsMouseClick(MOUSE_INPUT_LEFT))
 		{
 			isLeftorRight = true;				// 左右判定を左に
 			isCut = true;						// 切る判定をtrueに
+
+			//BGM&SE
+			PlaySoundMem(SoundHandle, DX_PLAYTYPE_BACK, true);
 		}
 		// 左クリックが押されていなければ
 		else
@@ -139,10 +151,13 @@ void Player::ClickLR()
 	if (Collision::Rect_Dot(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT, MouseX, MouseY))
 	{
 		// 左クリックが押されていれば
-		if (IsMouseDown(MOUSE_INPUT_LEFT))
+		if (IsMouseClick(MOUSE_INPUT_LEFT))
 		{
 			isLeftorRight = false;				// 左右判定を左に
 			isCut = true;						// 切る判定をtrueに
+
+			//BGM&SE
+			PlaySoundMem(SoundHandle, DX_PLAYTYPE_BACK, true);
 		}
 		// 左クリックが押されていなければ
 		else

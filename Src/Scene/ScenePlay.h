@@ -10,6 +10,17 @@
 // プレイ背景
 #define PLAY_BG_PATH "Data/Image/BackGround/PlayBG.png"
 
+// サウンドパス
+#define PLAY_BGM_PATH "Data/SE&BGM/Play/PlayBGM.mp3"
+
+enum PlaySound {
+	PLAY_BGM,
+	START_SE,
+	CUT_SE,
+
+	SOUND_MAX_NUM,
+};
+
 class ScenePlay {
 private:
 	// プレイ背景ハンドル
@@ -17,6 +28,9 @@ private:
 
 	// フォントハンドル
 	int FontHandle;
+
+	// サウンドハンドル
+	int SoundHandle;
 
 	// Class
 	Player CPlayer;
