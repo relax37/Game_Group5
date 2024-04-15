@@ -5,7 +5,8 @@
 #define TWIG_IMG_PATH "Data/Image/Play/twig.png"
 #define TWIG_LEFT_MAX_NUM (8)
 #define TWIG_RIGHT_MAX_NUM (6)
-#define TWIG_SIZE (128)
+
+#define RANDOM_NUM (5)
 
 class Twig {
 private:
@@ -20,6 +21,8 @@ private:
 	int Random;																// ランダム変数
 
 	int CountNum;															// カウント変数
+
+	int CountNum2;															// カウント変数2
 		
 public:
 	Twig();
@@ -45,5 +48,8 @@ public:
 
 	// クリック判定
 	void Click();
+
+	// プレイヤーと枝の当たり判定
+	void Player_TwigCollision(int PlayerPosX, int PlayerPosY);
 };
 

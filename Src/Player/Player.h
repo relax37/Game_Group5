@@ -37,4 +37,8 @@ public:
 
 	// 左右画面クリック判定
 	void ClickLR();
+
+	// プレイヤーの座標取得
+	inline int GetPlayerPosX() { return PlayerPosX; }
+	inline int GetPlayerPosY() { return PlayerPosY; }
 };

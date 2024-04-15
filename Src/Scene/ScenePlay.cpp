@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "Scene.h"
 #include "ScenePlay.h"
+#include "../InputMouse/InputMouse.h"
 
 ScenePlay::ScenePlay()
 {
@@ -10,6 +11,9 @@ ScenePlay::ScenePlay()
 
 	// フォントハンドル
 	FontHandle = 0;
+
+	// クリックスタート判定
+	isClickStart = 0;
 }
 ScenePlay::~ScenePlay() { FinPlay(); }
 
@@ -34,29 +38,34 @@ void ScenePlay::InitPlay()
 	// タイマーの初期化
 	CTimer.Init();
 
+	// クリックスタート判定
+	isClickStart = false;
+
 	g_CurrentSceneID = SCENE_ID_LOOP_PLAY;
 }
 
 //プレイシーン通常処理
 void ScenePlay::StepPlay()
 {
-	// プレイヤーの通常処理
-	CPlayer.Step();
+	// クリック判定
+	Click();
 
-	// 木の通常処理
-	CWood.Step();
-
-	// 枝の通常処理
-	CTwig.Step();
-
-	// タイマーの通常処理
-	//CTimer.Step();
-
-	// Enterを押したら
-	if (InputKey::Push(KEY_INPUT_RETURN))
+	if (isClickStart == true)
 	{
-		// プレイシーンを終了する
-		FinPlay();
+		// プレイヤーの通常処理
+		CPlayer.Step();
+
+		// 木の通常処理
+		CWood.Step();
+
+		// 枝の通常処理
+		CTwig.Step();
+
+		// プレイヤーと枝の当たり判定
+		CTwig.Player_TwigCollision(CPlayer.GetPlayerPosX(), CPlayer.GetPlayerPosY());
+
+		// タイマーの通常処理
+		CTimer.Step();
 	}
 }
 
@@ -103,6 +112,9 @@ void ScenePlay::FinPlay()
 	// タイマーの終了処理
 	CTimer.Fin();
 
+	// クリックスタート判定
+	isClickStart = 0;
+
 	// クリアシーンに移動
 	g_CurrentSceneID = SCENE_ID_INIT_GAMEOVER;
 }
@@ -121,5 +133,15 @@ void ScenePlay::DrawScore()
 	else if (Score >= 100 && Score < 1000)
 	{
 		DrawFormatStringToHandle(WINDOW_WIDTH / 2 - 33, WINDOW_HEIGHT / 4, GetColor(255, 255, 255), FontHandle, "%d", Score);
+	}
+}
+
+// クリック判定
+void ScenePlay::Click()
+{
+	// 左クリックが押されていれば
+	if (IsMouseDown(MOUSE_INPUT_LEFT))
+	{
+		isClickStart = true;
 	}
 }

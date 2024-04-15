@@ -13,6 +13,10 @@ Timer::Timer()
 	TimerWidth = 0;
 	TimerHeight = 0;
 
+	// タイマーの速さ
+	TimerMinusSpeed = 0;
+	TimerPlusSpeed = 0;
+
 	// カウント変数
 	CountNum = 0;
 }
@@ -29,6 +33,10 @@ void Timer::Init()
 	TimerWidth = 200;
 	TimerHeight = 70;
 
+	// タイマーの速さ
+	TimerMinusSpeed = 2;
+	TimerPlusSpeed = 8;
+
 	// カウント変数
 	CountNum = 0;
 }
@@ -36,15 +44,17 @@ void Timer::Init()
 // Timer通常処理
 void Timer::Step()
 {
-	TimerWidth -= 2;
+	// タイマーの横幅を2ずつ少なくする
+	TimerWidth -= TimerMinusSpeed;
 
 	// 左クリックが押されていれば
 	if (IsMouseDown(MOUSE_INPUT_LEFT))
 	{
-			CountNum++;
+		CountNum++;
+
 		if (CountNum < 4)
 		{
-			TimerWidth += 8;
+			TimerWidth += TimerPlusSpeed;
 		}	
 	}
 	else 
@@ -52,9 +62,17 @@ void Timer::Step()
 		CountNum = 0;
 	}
 
+	// タイマーが400を超えると400に固定する
 	if (TimerWidth >= 400)
 	{
 		TimerWidth = 400;
+	}
+
+	// スコアが100を超えるとSpeedUP
+	if (Score >= 100)
+	{
+		TimerMinusSpeed = 3;
+		TimerPlusSpeed = 10;
 	}
 
 	if (TimerWidth <= 0)
@@ -85,6 +103,10 @@ void Timer::Fin()
 	// タイマーのサイズ
 	TimerWidth = 0;
 	TimerHeight = 0;
+
+	// タイマーの速さ
+	TimerMinusSpeed = 0;
+	TimerPlusSpeed = 0;
 
 	// カウント変数
 	CountNum = 0;
