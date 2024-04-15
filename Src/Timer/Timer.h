@@ -10,6 +10,10 @@ private:
 	int TimerWidth;
 	int TimerHeight;
 
+	// タイマーの速さ
+	int TimerMinusSpeed;
+	int TimerPlusSpeed;
+
 	// カウント変数
 	int CountNum;
 
