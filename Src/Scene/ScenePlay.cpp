@@ -49,15 +49,11 @@ void ScenePlay::StepPlay()
 	// 枝の通常処理
 	CTwig.Step();
 
-	// タイマーの通常処理
-	//CTimer.Step();
+	// プレイヤーと枝の当たり判定
+	CTwig.Player_TwigCollision(CPlayer.GetPlayerPosX(), CPlayer.GetPlayerPosY());
 
-	// Enterを押したら
-	if (InputKey::Push(KEY_INPUT_RETURN))
-	{
-		// プレイシーンを終了する
-		FinPlay();
-	}
+	// タイマーの通常処理
+	CTimer.Step();
 }
 
 //プレイシーン描画処理

@@ -34,6 +34,9 @@ Twig::Twig()
 
 	// カウント変数
 	CountNum = 0;
+
+	// カウント変数2
+	CountNum2 = 0;
 }
 Twig::~Twig() { Fin(); }
 
@@ -45,10 +48,10 @@ void Twig::Init()
 
 	for (int TwigIndex = 0; TwigIndex < TWIG_LEFT_MAX_NUM; TwigIndex++)
 	{
-		Random = GetRand(1);
+		Random = GetRand(RANDOM_NUM);
 
 		// 描画判定
-		if (Random == 1)
+		if (Random >= 1)
 		{
 			isDrawLeft[TwigIndex] = true;
 		}
@@ -56,39 +59,27 @@ void Twig::Init()
 		{
 			isDrawLeft[TwigIndex] = false;
 		}
+
+		// 枝のX座標
+		TwigLeftPosX[TwigIndex] = WINDOW_WIDTH / 3 + 53;
 	}
 
-	// 枝の座標
-	TwigLeftPosX[0] = WINDOW_WIDTH / 3 + 50;
+	// 枝のY座標
 	TwigLeftPosY[0] = (WINDOW_HEIGHT - 156) - 69 * 3;
-
-	TwigLeftPosX[1] = WINDOW_WIDTH / 3 + 50;
 	TwigLeftPosY[1] = (WINDOW_HEIGHT - 156) - 69 * 4;
-
-	TwigLeftPosX[2] = WINDOW_WIDTH / 3 + 50;
 	TwigLeftPosY[2] = (WINDOW_HEIGHT - 156) - 69 * 9;
-
-	TwigLeftPosX[3] = WINDOW_WIDTH / 3 + 50;
 	TwigLeftPosY[3] = (WINDOW_HEIGHT - 156) - 69 * 10;
-
-	TwigLeftPosX[4] = WINDOW_WIDTH / 3 + 50;
 	TwigLeftPosY[4] = (WINDOW_HEIGHT - 156) - 69 * 11;
-
-	TwigLeftPosX[5] = WINDOW_WIDTH / 3 + 50;
 	TwigLeftPosY[5] = (WINDOW_HEIGHT - 156) - 69 * 12;
-
-	TwigLeftPosX[6] = WINDOW_WIDTH / 3 + 50;
 	TwigLeftPosY[6] = (WINDOW_HEIGHT - 156) - 69 * 13;
-
-	TwigLeftPosX[7] = WINDOW_WIDTH / 3 + 50;
 	TwigLeftPosY[7] = (WINDOW_HEIGHT - 156) - 69 * 14;
 
 	for (int TwigIndex = 0; TwigIndex < TWIG_RIGHT_MAX_NUM; TwigIndex++)
 	{
-		Random = GetRand(1);
+		Random = GetRand(4);
 
 		// 描画判定
-		if (Random == 1)
+		if (Random >= 1)
 		{
 			isDrawRight[TwigIndex] = true;
 		}
@@ -96,29 +87,24 @@ void Twig::Init()
 		{
 			isDrawRight[TwigIndex] = false;
 		}
+
+		// 枝のX座標
+		TwigRightPosX[TwigIndex] = WINDOW_WIDTH - WINDOW_WIDTH / 3 - 48;
 	}
 
-	// 枝の座標
-	TwigRightPosX[0] = WINDOW_WIDTH - WINDOW_WIDTH / 3 - 50;
+	// 枝のY座標
 	TwigRightPosY[0] = (WINDOW_HEIGHT - 156);
-
-	TwigRightPosX[1] = WINDOW_WIDTH - WINDOW_WIDTH / 3 - 50;
 	TwigRightPosY[1] = (WINDOW_HEIGHT - 156) - 69;
-
-	TwigRightPosX[2] = WINDOW_WIDTH - WINDOW_WIDTH / 3 - 50;
 	TwigRightPosY[2] = (WINDOW_HEIGHT - 156) - 69 * 6;
-
-	TwigRightPosX[3] = WINDOW_WIDTH - WINDOW_WIDTH / 3 - 50;
 	TwigRightPosY[3] = (WINDOW_HEIGHT - 156) - 69 * 7;
-
-	TwigRightPosX[4] = WINDOW_WIDTH - WINDOW_WIDTH / 3 - 50;
 	TwigRightPosY[4] = (WINDOW_HEIGHT - 156) - 69 * 16;
-
-	TwigRightPosX[5] = WINDOW_WIDTH - WINDOW_WIDTH / 3 - 50;
 	TwigRightPosY[5] = (WINDOW_HEIGHT - 156) - 69 * 17;
 
 	// カウント変数
 	CountNum = 0;
+
+	// カウント変数2
+	CountNum2 = 0;
 }
 
 //プレイシーン通常処理
@@ -143,8 +129,10 @@ void Twig::Draw()
 		{
 			// 枝の画像描画
 			DrawRotaGraph(TwigLeftPosX[TwigIndex], TwigLeftPosY[TwigIndex], 1.0f, 0.0f, TwigImgHandle, true, false);
-		}
 
+			// debug
+			//DrawBox(TwigLeftPosX[TwigIndex] - 40, TwigLeftPosY[TwigIndex] - 40, TwigLeftPosX[TwigIndex] + 40, TwigLeftPosY[TwigIndex] + 40, GetColor(255, 0, 0), false);
+		}
 	}
 
 	for (int TwigIndex = 0; TwigIndex < TWIG_RIGHT_MAX_NUM; TwigIndex++)
@@ -153,8 +141,10 @@ void Twig::Draw()
 		{
 			// 枝の画像描画
 			DrawRotaGraph(TwigRightPosX[TwigIndex], TwigRightPosY[TwigIndex], 1.0f, 0.0f, TwigImgHandle, true, true);
-		}
 
+			// debug
+			//DrawBox(TwigRightPosX[TwigIndex] - 40, TwigRightPosY[TwigIndex] - 40, TwigRightPosX[TwigIndex] + 40, TwigRightPosY[TwigIndex] + 40, GetColor(255, 0, 0), false);
+		}
 	}
 }
 
@@ -189,21 +179,23 @@ void Twig::Fin()
 
 	// カウント変数
 	CountNum = 0;
+
+	// カウント変数2
+	CountNum2 = 0;
 }
 
 // 枝(左)の移動処理
 void Twig::MoveLeftTwig()
 {
-	// LeftTwig1
 	for (int TwigIndex = 0; TwigIndex < TWIG_LEFT_MAX_NUM; TwigIndex++)
 	{
-		if (TwigLeftPosY[TwigIndex] >= WINDOW_HEIGHT - 156)
+		if (TwigLeftPosY[TwigIndex] > WINDOW_HEIGHT - 156)
 		{
-			Random = GetRand(1);
+			Random = GetRand(RANDOM_NUM);
 
 			TwigLeftPosY[TwigIndex] = (WINDOW_HEIGHT - 156) - 69 * 19;
 
-			if (Random == 1)
+			if (Random >= 1)
 			{
 				isDrawLeft[TwigIndex] = true;
 			}
@@ -213,21 +205,6 @@ void Twig::MoveLeftTwig()
 			}
 		}
 	}
-
-
-	// LeftTwig2
-
-	// LeftTwig3
-
-	// LeftTwig4
-
-	// LeftTwig5
-
-	// LeftTwig6
-
-	// LeftTwig7
-
-	// LeftTwig8
 }
 
 // 枝(右)の移動処理
@@ -236,13 +213,13 @@ void Twig::MoveRightTwig()
 	// RightTwig1
 	for (int TwigIndex = 0; TwigIndex < TWIG_RIGHT_MAX_NUM; TwigIndex++)
 	{
-		if (TwigRightPosY[TwigIndex] >= WINDOW_HEIGHT - 156)
+		if (TwigRightPosY[TwigIndex] > WINDOW_HEIGHT - 156)
 		{
-			Random = GetRand(1);
+			Random = GetRand(RANDOM_NUM);
 
 			TwigRightPosY[TwigIndex] = (WINDOW_HEIGHT - 156) - 69 * 19;
 
-			if (Random == 1)
+			if (Random >= 1)
 			{
 				isDrawRight[TwigIndex] = true;
 			}
@@ -252,16 +229,6 @@ void Twig::MoveRightTwig()
 			}
 		}
 	}
-
-	// RightTwig2
-
-	// RightTwig3
-
-	// RightTwig4
-
-	// RightTwig5
-
-	// RightTwig6
 }
 
 // 左右画面クリック判定
@@ -272,23 +239,80 @@ void Twig::Click()
 	{
 		CountNum++;
 
-		if (CountNum <= 1)
+		if (CountNum <= 3)
 		{
 			for (int TwigIndex = 0; TwigIndex < TWIG_LEFT_MAX_NUM; TwigIndex++)
 			{
 				// 枝の座標
-				TwigLeftPosY[TwigIndex] += 69;
+				TwigLeftPosY[TwigIndex] += 23;
 			}
 
 			for (int TwigIndex = 0; TwigIndex < TWIG_RIGHT_MAX_NUM; TwigIndex++)
 			{
 				// 枝の座標
-				TwigRightPosY[TwigIndex] += 69;
+				TwigRightPosY[TwigIndex] += 23;
 			}
 		}
+
 	}
 	else
 	{
+		if (CountNum == 2)
+		{
+			for (int TwigIndex = 0; TwigIndex < TWIG_LEFT_MAX_NUM; TwigIndex++)
+			{
+				// 枝の座標
+				TwigLeftPosY[TwigIndex] += 23;
+			}
+
+			for (int TwigIndex = 0; TwigIndex < TWIG_RIGHT_MAX_NUM; TwigIndex++)
+			{
+				// 枝の座標
+				TwigRightPosY[TwigIndex] += 23;
+			}
+		}
+		else if (CountNum == 1)
+		{
+			for (int TwigIndex = 0; TwigIndex < TWIG_LEFT_MAX_NUM; TwigIndex++)
+			{
+				// 枝の座標
+				TwigLeftPosY[TwigIndex] += 46;
+			}
+
+			for (int TwigIndex = 0; TwigIndex < TWIG_RIGHT_MAX_NUM; TwigIndex++)
+			{
+				// 枝の座標
+				TwigRightPosY[TwigIndex] += 46;
+			}
+		}
 		CountNum = 0;
+	}
+}
+
+// プレイヤーと枝の当たり判定
+void Twig::Player_TwigCollision(int PlayerPosX, int PlayerPosY)
+{
+	for (int TwigIndex = 0; TwigIndex < TWIG_LEFT_MAX_NUM; TwigIndex++)
+	{
+		if (isDrawLeft[TwigIndex] == true)
+		{
+			if (Collision::Rect_Dot(TwigLeftPosX[TwigIndex] - 40, TwigLeftPosY[TwigIndex] - 40, 80, 80, PlayerPosX, PlayerPosY))
+			{
+				// ゲームオーバーシーンに移動
+				g_CurrentSceneID = SCENE_ID_FIN_PLAY;
+			}
+		}
+	}
+
+	for (int TwigIndex = 0; TwigIndex < TWIG_RIGHT_MAX_NUM; TwigIndex++)
+	{
+		if (isDrawRight[TwigIndex] == true)
+		{
+			if (Collision::Rect_Dot(TwigRightPosX[TwigIndex] - 20, TwigRightPosY[TwigIndex] - 10, 40, 20, PlayerPosX, PlayerPosY))
+			{
+				// ゲームオーバーシーンに移動
+				g_CurrentSceneID = SCENE_ID_FIN_PLAY;
+			}
+		}
 	}
 }
