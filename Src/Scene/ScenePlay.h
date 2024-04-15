@@ -24,6 +24,9 @@ private:
 	Twig CTwig;
 	Timer CTimer;
 
+	// クリックスタート判定
+	bool isClickStart;
+
 public:
 	ScenePlay();
 	~ScenePlay();
@@ -42,4 +45,7 @@ public:
 
 	// スコアを表示する
 	void DrawScore();
+
+	// クリック判定
+	void Click();
 };
